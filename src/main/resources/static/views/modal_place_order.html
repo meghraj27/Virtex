@@ -1,0 +1,106 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">Order</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" class="form-inline p-h-xs border-bottom">
+            <!--<h3 class="m-t-none m-b">Order</h3>-->
+            <div class="form-group">
+                <label for="buyOrSell">Buy/Sell</label>
+                <select id="buyOrSell" ng-model="order.buySell"
+                        ng-class="(order.buySell=='BUY' ? 'bg-primary' : (order.buySell=='SELL') ? 'bg-danger' : '' ) + ' form-control'">
+                    <option class="badge-white text" value="">Select</option>
+                    <option class="white-bg text-navy" value="BUY">BUY</option>
+                    <option class="white-bg text-danger" value="SELL">SELL</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-2 form-group">
+                        <label for="symbol">Symbol</label>
+                        <select id="symbol" ng-model="order.symbol" class="form-control">
+                            <option value="BTC">BTC</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label>Qty</label>
+                        <input type="number" ng-model="order.quantity" min="0" placeholder="0" class="form-control">
+                    </div>
+                    <div class="col-sm-2 form-group">
+                        <label>Type</label>
+                        <select ng-model="order.type" class="form-control">
+                            <option value="LIMIT">Limit</option>
+                            <option value="MARKET">Market</option>
+                            <option value="STOP_LOSS">Stop Loss</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 form-group"><label>Price</label>
+                        <input type="number" ng-model="order.price" step="0.5" min="0" placeholder="0"
+                               class="form-control">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-6 b-r">
+                <h3>Depth</h3>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Bid Size</th>
+                        <th>Bid</th>
+                        <th>Ask</th>
+                        <th>Ask Size</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>5.043333</td>
+                        <td>2877</td>
+                        <td>2879</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>2.3439849</td>
+                        <td>2894</td>
+                        <td>2874</td>
+                        <td>3.74</td>
+                    </tr>
+                    <tr>
+                        <td>0.9</td>
+                        <td>2875</td>
+                        <td>2894</td>
+                        <td>0.44</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>3787.945045</th>
+                        <th>Total</th>
+                        <th></th>
+                        <th>3542.63403455</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h3>Limits</h3>
+                <h5><strong>Available Margin For Trading:</strong></h5>
+                <small>USD {{23233.32}}</small>
+                <hr>
+                <h2>Total</h2>
+                <h1>USD 2878.05</h1>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--<button ladda="loadingAddToBasket" class="btn btn-success btn-outline" type="submit" ng-click="addToBasket()">-->
+            <!--Add to Basket-->
+        <!--</button>-->
+        <button class="btn btn-default" type="submit" ng-click="reset()">Reset</button>
+        <button ladda="loadingPlaceOrder"
+                ng-class="(order.buySell=='BUY' ? 'btn-primary' : (order.buySell=='SELL') ? 'btn-danger' : 'btn-default' ) + ' btn'"
+                data-style="zoom-in" type="submit" ng-click="placeOrder()">Place Order
+        </button>
+    </div>
+</div>

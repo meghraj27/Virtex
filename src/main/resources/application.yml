@@ -1,0 +1,111 @@
+application:
+  version: 0.1
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/bitex?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: meghraj
+    password: meghraj
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: com.meghrajswami.bitex.CustomMysqlDialect
+  jackson:
+    mapper:
+      DEFAULT_VIEW_INCLUSION: true
+    serialization:
+      indent_output: true
+server:
+  error:
+    whitelabel:
+      enabled: false
+---
+spring:
+  profiles: local
+  jpa:
+    hibernate:
+      ddl-auto: update
+#    show-sql: true
+#  resources:
+#    cache-period: 5184000
+#    chain:
+#      cache: true
+#      strategy:
+#        fixed:
+#          enabled: true
+##          paths: /**/*.js,/**/*.map
+#          version: ${application.version}
+#        content:
+#          enabled: true
+#      html-application-cache: true
+#  data:
+#    elasticsearch:
+#      cluster-nodes: localhost:9300
+  mail:
+    host: email-smtp.us-east-1.amazonaws.com
+    port: 587
+    username: AKIAIXYNEVPMVB6FLX4Q
+    password: AkThDNVP8xYB+FJhF9rh3DWVsc4hmHd5mdrK880ROvBS
+    properties:
+      mail:
+        smtp:
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+          auth: true
+          starttls:
+            enable: true
+            required: true
+#  boot:
+#    admin:
+#      url: http://localhost:8081
+#      username: sbaadmin
+#      password: admin54
+#      client:
+#        name: Bitex
+#        prefer-ip: true
+#management:
+#  security:
+#    enabled: false
+#tuckey:
+#  urlrewritefilter:
+#    enabled: false
+#server:
+#  address: 127.0.0.1
+#  compression:
+#    enabled: true
+#    mime-types: text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/xml,image/png
+---
+spring:
+  profiles: eb
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: ${rds.username}
+    password: ${rds.password}
+  resources:
+    cache-period: 5184000
+    chain:
+      cache: true
+      strategy:
+        fixed:
+          enabled: true
+#          paths: /**/*.js,/**/*.map
+          version: ${application.version}
+        content:
+          enabled: true
+      html-application-cache: true
+#security:
+#  require-ssl: true
+server:
+  port: ${port}
+  use-forward-headers: true
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/xml,image/png
+#tuckey:
+#  urlrewritefilter:
+#    enabled: true
