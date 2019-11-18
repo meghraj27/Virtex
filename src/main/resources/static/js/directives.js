@@ -632,6 +632,52 @@ function tradeOrderBookRowDetail() {
     }
 }
 
+function hcChart() {
+    return {
+        restrict: 'A',
+        template: '<div></div>',
+        scope: {
+            chartConfig: '='
+        },
+        link: function (scope, element) {
+            var chart = Highcharts.chart(element[0], scope.chartConfig);
+            scope.$watch("chartConfig", function (newValue) {
+                // chart.series[0].setData(newValue, true);
+                if (newValue.series) {
+                    chart.update({
+                        series: [newValue.series[0]]
+                    });
+                }
+            }, true);
+        }
+    };
+}
+
+function hcStockChart() {
+    return {
+        restrict: 'A',
+        template: '<div></div>',
+        scope: {
+            chartConfig: '='
+        },
+        link: function (scope, element) {
+            var chart = Highcharts.stockChart(element[0], scope.chartConfig);
+            scope.$watch("chartConfig", function (newValue, oldValue) {
+                // console.log("new");
+                // console.log(newValue);
+                // console.log("old");
+                // console.log(oldValue);
+                // chart.series[0].setData(newValue, true);
+                if (newValue.series) {
+                    chart.update({
+                        series: [newValue.series[0], newValue.series[1]]
+                    });
+                }
+            }, true);
+        }
+    };
+}
+
 /**
  *
  * Pass all functions into module
@@ -661,4 +707,7 @@ angular
     .directive('touchSpin', touchSpin)
     .directive('markdownEditor', markdownEditor)
     .directive('passwordMeter', passwordMeter)
-    .directive('tradeOrderBookRowDetail', tradeOrderBookRowDetail);
+    .directive('tradeBookRowDetail', tradeBookRowDetail)
+    .directive('tradeOrderBookRowDetail', tradeOrderBookRowDetail)
+    .directive('hcChart', hcChart)
+    .directive('hcStockChart', hcStockChart);

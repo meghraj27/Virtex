@@ -26,6 +26,8 @@
 		<thymeleaf.version>3.0.6.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
         <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
+
+        <eclipse.collections.version>8.0.0</eclipse.collections.version>
 	</properties>
 
 	<dependencies>
@@ -101,6 +103,46 @@
 			<!--<artifactId>spring-boot-admin-starter-client</artifactId>-->
 			<!--<version>1.5.3</version>-->
 		<!--</dependency>-->
+		<dependency>
+			<groupId>com.paritytrading.parity</groupId>
+			<artifactId>parity-net</artifactId>
+			<version>0.7.0</version>
+		</dependency>
+        <dependency>
+            <groupId>com.paritytrading.parity</groupId>
+            <artifactId>parity-util</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvirtanen.config</groupId>
+            <artifactId>config-extras</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvirtanen.util</groupId>
+            <artifactId>util-extras</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.collections</groupId>
+            <artifactId>eclipse-collections-api</artifactId>
+            <version>${eclipse.collections.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.collections</groupId>
+            <artifactId>eclipse-collections</artifactId>
+            <version>${eclipse.collections.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>23.5-jre</version>
+		</dependency>
+        <dependency>
+            <groupId>com.paritytrading.parity</groupId>
+            <artifactId>parity-match</artifactId>
+            <version>0.7.0</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>

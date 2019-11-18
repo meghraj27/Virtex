@@ -12,69 +12,90 @@
         <div ng-include="'views/common/topnavbar.html'"></div>
 
         <!-- Main view  -->
-        <div class="animated fadeIn">
+        <div class="animated fadeIn" ng-controller="dashboardCtrl as dCtrl">
             <div class="row  border-bottom white-bg dashboard-header">
                 <div class="col-sm-3 b-r">
                     <h2>{{ 'WELCOME' | translate }} {{currentUser.name}}</h2>
                     <small>{{ 'MESSAGEINFO' | translate }}</small>
-                    <div class="m-b-md">
-                        <h4>Balance</h4>
+                    <div class="m-t-md m-b-md">
+                        <h4>Main Balance</h4>
                         <div class="">
-                            <h2 class="no-margins">$23233.32</h2>
+                            <h2 class="no-margins">{{currentUser.defaultCurrency}} {{currentUser.mainBalance ? currentUser.mainBalance : 0}}</h2>
                         </div>
                     </div>
-                    <div class="">
+                    <div class="m-t-md m-b-md">
+                        <h4>Available Margin for Trading</h4>
+                        <div class="">
+                            <h3 class="no-margins">{{currentUser.defaultCurrency}} {{currentUser.availableMargin ? currentUser.availableMargin : 0}}</h3>
+                        </div>
+                    </div>
+                    <hr ng-show="currentUser.holdings.length != 0">
+                    <div class="" ng-show="currentUser.holdings.length != 0">
                         <div class="">
                             <!--<span class="label label-success pull-right">Monthly</span>-->
                             <h4>My Holdings</h4>
                         </div>
-                        <div class="">
-                            <h3 class="no-margins">BTC 3.0983333</h3>
+                        <div class="" ng-repeat="(key, holding) in currentUser.holdings">
+                            <h3 class="no-margins">{{key}} {{holding.quantity}}</h3>
                             <div class="stat-percent font-bold text-navy">6% <i class="fa fa-level-up"></i></div>
-                            <small>~ USD {{3.0983333 * 2873.5}} @ BTC 1 = USD 2873.5</small>
+                            <small>~ {{currentUser.defaultCurrency}} {{holding.quantity * dCtrl.depth.lastTrade.price | number : 2}} @ {{key}} 1 = {{currentUser.defaultCurrency}} {{dCtrl.depth.lastTrade.price}}</small>
                         </div>
-                        <div class="m-t">
-                            <h3 class="no-margins">ETH 1.004</h3>
-                            <div class="stat-percent font-bold text-navy">4% <i class="fa fa-level-up"></i></div>
-                            <small>~ USD {{1.004 * 300}} @ ETH 1 = USD 300</small>
+                        <!--<div class="m-t">-->
+                            <!--<h3 class="no-margins">ETH 1.004</h3>-->
+                            <!--<div class="stat-percent font-bold text-navy">4% <i class="fa fa-level-up"></i></div>-->
+                            <!--<small>~ USD {{1.004 * 300}} @ ETH 1 = USD 300</small>-->
+                        <!--</div>-->
+                    </div>
+                    <hr>
+                    <div class="m-t-md">
+                        <h4>Net worth</h4>
+                        <div class="">
+                            <h3 class="no-margins" ng-init="networth=networth(currentUser, {})">~USD {{networth | number}}</h3>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="flot-chart dashboard-chart" ng-controller="dashboardFlotOne as chart">
-                        <div flot class="flot-chart-content" dataset="chart.flotData" options="chart.flotOptions"></div>
-                    </div>
-                    <div class="row text-left">
-                        <div class="col-xs-4">
-                            <div class=" m-l-md">
-                                <span class="h4 font-bold m-t block">$ 2873.5</span>
+                <div class="col-sm-9">
+                    <!--<div class="flot-chart dashboard-chart" ng-controller="dashboardFlotOne as chart">-->
+                    <!--<div flot class="flot-chart-content" dataset="chart.flotData" options="chart.flotOptions"></div>-->
+                    <!--</div>-->
+                    <!--<highchart id="chart1" config="dCtrl.chartConfig"></highchart>-->
+                    <div hc-stock-chart chart-config="dCtrl.chartConfig"></div>
+                    <div class="row">
+                        <div class="col-xs-4 text-center b-r">
+                            <div class=" ">
+                                <span class="h4 font-bold m-t block">$ {{dCtrl.depth.lastTrade.price | number : 2}}</span>
                                 <small class="text-muted m-b block">Current Price</small>
                             </div>
                         </div>
-                        <div class="col-xs-4">
-                            <span class="h4 font-bold m-t block">$ 2877</span>
-                            <small class="text-muted m-b block">Buy Price</small>
-                            <button class="btn btn-primary" ng-click="main.openBuyOrSell('BUY', 'lg')">Buy</button>
+                        <div class="col-xs-4 b-r">
+                            <div class="col-xs-6">
+                                <span class="h4 font-bold m-t block  pull-right">$ {{dCtrl.depth.asks[0].price | number : 2}}</span>
+                                <small class="text-muted m-b block  pull-right">Buy Price</small>
+                            </div>
+                            <div class="col-xs-6 m-t-md">
+                                <button class="btn btn-primary"
+                                        ng-click="dCtrl.openBuyOrSell('BUY', dCtrl.depth, 'lg')">Buy
+                                </button>
+                            </div>
+
                         </div>
                         <div class="col-xs-4">
-                            <span class="h4 font-bold m-t block">$ 2870</span>
-                            <small class="text-muted m-b block">Sell Price</small>
-                            <button class="btn btn-danger" ng-click="main.openBuyOrSell('SELL', 'lg')">Sell</button>
+                            <div  class="col-xs-6">
+                                <span class="h4 font-bold m-t block  pull-right">$ {{dCtrl.depth.bids[0].price | number : 2}}</span>
+                                <small class="text-muted m-b block  pull-right">Sell Price</small>
+                            </div>
+                            <div  class="col-xs-6 m-t-md">
+                                <button class="btn btn-danger"
+                                        ng-click="dCtrl.openBuyOrSell('SELL', dCtrl.depth, 'lg')">Sell
+                                </button>
+                            </div>
                         </div>
 
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <h3>Depth Chart</h3>
-                    <!--<div class="flot-chart dashboard-chart" ng-controller="dashboardFlotOne as chart">-->
-                        <!--<div flot class="flot-chart-content" dataset="chart.flotData" options="chart.flotOptions"></div>-->
-                    <!--</div>-->
-                    <div class="flot-chart">
-                        <div flot class="flot-chart-content" dataset="main.depthPieChartData" options="main.depthPieChartOptions"></div>
                     </div>
                 </div>
 
             </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="wrapper wrapper-content">
@@ -83,62 +104,71 @@
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
                                         <h5>Depth - BTC</h5>
-                                        <button class="btn btn-xs btn-white pull-right"><span
+                                        <button class="btn btn-xs btn-white pull-right"
+                                                ng-click="dCtrl.refreshDepthNow()"><span
                                                 class="fa fa-refresh"></span></button>
-                                        <small class="pull-right m-r-xs m-t-xs">1 m ago</small>
+                                        <small class="pull-right m-r-xs m-t-xs"
+                                               am-time-ago="dCtrl.depth.lastChecked"></small>
                                     </div>
                                     <div class="ibox-content">
-                                        <p>Last Trade: BTC 1.894883 @ USD 2873.5</p>
-                                        <table class="table table-striped">
-                                            <thead>
-                                            <tr>
-                                                <th>Bid Size</th>
-                                                <th>Bid</th>
-                                                <th>Ask</th>
-                                                <th>Ask Size</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>5.043333</td>
-                                                <td>2877</td>
-                                                <td>2879</td>
-                                                <td>3</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2.3439849</td>
-                                                <td>2894</td>
-                                                <td>2874</td>
-                                                <td>10.74</td>
-                                            </tr>
-                                            <tr>
-                                                <td>0.9</td>
-                                                <td>2875</td>
-                                                <td>2894</td>
-                                                <td>0.44</td>
-                                            </tr>
-                                            <tr>
-                                                <td>0.9</td>
-                                                <td>2875</td>
-                                                <td>2894</td>
-                                                <td>0.44</td>
-                                            </tr>
-                                            <tr>
-                                                <td>0.9</td>
-                                                <td>2875</td>
-                                                <td>2894</td>
-                                                <td>0.44</td>
-                                            </tr>
-                                            </tbody>
-                                            <tfoot>
-                                            <tr>
-                                                <th>3787.945045</th>
-                                                <th>Total</th>
-                                                <th></th>
-                                                <th>3542.63403455</th>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
+                                        <div class="m-b-md">
+                                            <!--<h3>Depth Chart</h3>-->
+                                            <div class="flot-chart">
+                                                <div flot class="flot-chart-content" dataset="dCtrl.depthPieChartData"
+                                                     options="dCtrl.depthPieChartOptions"
+                                                     callback="dCtrl.depthChartCallback"></div>
+                                            </div>
+                                            <!--<div hc-chart chart-config="dCtrl.depthChartConfig"></div>-->
+                                        </div>
+                                        <p>Last Trade: BTC {{dCtrl.depth.lastTrade.quantity}} @ USD
+                                            {{dCtrl.depth.lastTrade.price}}</p>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <table class="table table-striped col-sm-5">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Bid Size</th>
+                                                        <th>Bid</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="bid in dCtrl.depth.bids">
+                                                        <td>{{bid.quantity}}</td>
+                                                        <td>{{bid.price}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                    <tr>
+                                                        <th>{{dCtrl.depth.bidQuantityTotal}}</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                    </tfoot>
+                                                </table>
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <table class="table table-striped col-sm-5">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Ask</th>
+                                                        <th>Ask Size</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="ask in dCtrl.depth.asks">
+                                                        <td>{{ask.price}}</td>
+                                                        <td>{{ask.quantity}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>{{dCtrl.depth.askQuantityTotal}}</th>
+                                                    </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -148,59 +178,35 @@
                                     <!--</div>-->
                                     <div class="ibox-content">
                                         <uib-tabset>
-                                            <uib-tab heading="Order Book (Last 20)">
+                                            <uib-tab heading="Order Book (Last 10)">
                                                 <div class="panel-body">
                                                     <table class="table table-striped">
                                                         <thead>
                                                         <tr>
-                                                            <th>#</th>
-                                                            <th>First Name</th>
-                                                            <th>Last Name</th>
-                                                            <th>Username</th>
+                                                            <th>ID</th>
+                                                            <th>Symbol</th>
+                                                            <th>Buy/Sell</th>
+                                                            <th>Type</th>
+                                                            <th>Qty.</th>
+                                                            <th>Pending Quantity</th>
+                                                            <th>Traded Quantity</th>
+                                                            <th>Price</th>
+                                                            <th>Value</th>
+                                                            <th>Status</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            <td>@mdo</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            <td>@fat</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                            <td>@twitter</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                            <td>@twitter</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                            <td>@twitter</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                            <td>@twitter</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                            <td>@twitter</td>
+                                                        <tr ng-repeat="o in dCtrl.recentTradeOrders">
+                                                            <td>{{o.id}}</td>
+                                                            <td>{{o.symbol}}</td>
+                                                            <td>{{o.side}}</td>
+                                                            <td>{{o.type}}</td>
+                                                            <td>{{o.quantity}}</td>
+                                                            <td>{{o.pendingQuantity}}</td>
+                                                            <td>{{o.tradedQuantity}}</td>
+                                                            <td>{{o.price}}</td>
+                                                            <td>{{o.value}}</td>
+                                                            <td>{{o.status}}</td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -209,48 +215,31 @@
                                                     </button>
                                                 </div>
                                             </uib-tab>
-                                            <uib-tab heading="Trade Book (Last 20)">
+                                            <uib-tab heading="Trade Book (Last 10)">
                                                 <div class="panel-body">
                                                     <table class="table table-striped">
                                                         <thead>
                                                         <tr>
-                                                            <th>#</th>
-                                                            <th>Data</th>
-                                                            <th>User</th>
+                                                            <th>ID</th>
+                                                            <th>Bid By</th>
+                                                            <th>Bid Trade Order</th>
+                                                            <th>Ask By</th>
+                                                            <th>Ask Trade Order</th>
+                                                            <th>Qty.</th>
+                                                            <th>Price</th>
                                                             <th>Value</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>
-                                                                <line-chart data="main.LineChart4.data"
-                                                                            options="main.LineChart4.options"></line-chart>
-                                                            </td>
-                                                            <td>Samantha</td>
-                                                            <td class="text-navy"><i class="fa fa-level-up"></i> 40%
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>
-                                                                <line-chart data="main.LineChart2.data"
-                                                                            options="main.LineChart2.options"></line-chart>
-                                                            </td>
-                                                            <td>Jacob</td>
-                                                            <td class="text-warning"><i class="fa fa-level-down"></i>
-                                                                -20%
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>
-                                                                <line-chart data="main.LineChart3.data"
-                                                                            options="main.LineChart3.options"></line-chart>
-                                                            </td>
-                                                            <td>Damien</td>
-                                                            <td class="text-navy"><i class="fa fa-level-up"></i> 26%
-                                                            </td>
+                                                        <tr ng-repeat="o in dCtrl.recentTrades">
+                                                            <td>{{o.id}}</td>
+                                                            <td>{{o.bidById}}</td>
+                                                            <td>{{o.bidTradeOrderId}}</td>
+                                                            <td>{{o.askById}}</td>
+                                                            <td>{{o.askTradeOrderId}}</td>
+                                                            <td>{{o.quantity}}</td>
+                                                            <td>{{o.price}}</td>
+                                                            <td>{{o.value}}</td>
                                                         </tr>
                                                         </tbody>
                                                     </table>

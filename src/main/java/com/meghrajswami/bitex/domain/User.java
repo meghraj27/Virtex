@@ -13,8 +13,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Created by megh on 6/30/2016.
@@ -27,7 +27,7 @@ import java.util.Date;
                 @Index(columnList = "NAME")})
 public class User implements Serializable {
 
-//    @JsonView(View.PublicSummary.class)
+    //    @JsonView(View.PublicSummary.class)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -53,6 +53,7 @@ public class User implements Serializable {
     private String username;
 
     @JsonView(View.RoleAdmin.class)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "PASSWORD")
     private String password;
 
@@ -128,6 +129,26 @@ public class User implements Serializable {
     @Column(name = "PAID_ORDER_ID")
     private Long paidOrderId;
 
+    @JsonView(View.RoleOwner.class)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Column(name = "DEFAULT_CURRENCY")
+    private String defaultCurrency;
+
+    @JsonView(View.RoleOwner.class)
+    @Column(name = "MAIN_BALANCE", precision = 19, scale = 4)
+    private BigDecimal mainBalance;
+
+    @JsonView(View.RoleOwner.class)
+    @Column(name = "AVAILABLE_MARGIN", precision = 19, scale = 4)
+    private BigDecimal availableMargin;
+
+    @ElementCollection(targetClass = Holding.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "USER_HOLDING")
+    // @MapKey(name = "symbol")
+    @MapKeyJoinColumn(name = "HOLDING_ID", referencedColumnName = "ID")
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<Symbol, Holding> holdings = new HashMap<>();
+
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
@@ -135,7 +156,7 @@ public class User implements Serializable {
 
     @CreatedBy
     @Column(name = "CREATED_BY")
-    private Long createdBy;
+    private String createdBy;
 
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
@@ -144,7 +165,7 @@ public class User implements Serializable {
 
     @LastModifiedBy
     @Column(name = "UPDATED_BY")
-    private Long updatedBy;
+    private String updatedBy;
 
     protected User() {
     }
@@ -219,18 +240,18 @@ public class User implements Serializable {
         this.enabled = enabled;
     }
 
-    public Collection<Role> getSuggestiveGstRates() {
+    public Collection<Role> getRoles() {
         return roles;
     }
 
-    public void addSuggestiveGstRate(Role role) {
+    public void addRole(Role role) {
         roles.add(role);
-//        role.getLinkedUsers().add(this);
+        //        role.getLinkedUsers().add(this);
     }
 
-    public void removeSuggestiveGstRate(Role role) {
+    public void removeRole(Role role) {
         roles.remove(role);
-//        role.getLinkedUsers().remove(this);
+        //        role.getLinkedUsers().remove(this);
     }
 
     public String getEmail() {
@@ -345,6 +366,34 @@ public class User implements Serializable {
         this.paidOrderId = paidOrderId;
     }
 
+    public BigDecimal getMainBalance() {
+        return mainBalance;
+    }
+
+    public void setMainBalance(BigDecimal mainBalance) {
+        this.mainBalance = mainBalance;
+    }
+
+    public Currency getDefaultCurrency() {
+        return Currency.getInstance(defaultCurrency);
+    }
+
+    public void setDefaultCurrency(Currency defaultCurrency) {
+        this.defaultCurrency = defaultCurrency.getCurrencyCode();
+    }
+
+    public BigDecimal getAvailableMargin() {
+        return availableMargin;
+    }
+
+    public void setAvailableMargin(BigDecimal availableMargin) {
+        this.availableMargin = availableMargin;
+    }
+
+    public Map<Symbol, Holding> getHoldings() {
+        return holdings;
+    }
+
     public Date getCreated() {
         return created;
     }
@@ -353,11 +402,11 @@ public class User implements Serializable {
         this.created = created;
     }
 
-    public Long getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Long createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -369,11 +418,11 @@ public class User implements Serializable {
         this.updated = updated;
     }
 
-    public Long getUpdatedBy() {
+    public String getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(Long updatedBy) {
+    public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
 
@@ -383,6 +432,39 @@ public class User implements Serializable {
         setFbId(o.get("user_id").getAsLong());
         setTokenExpireAt(o.get("expires_at").getAsLong());
     }
+
+    public Holding getHolding(Symbol symbol) {
+        return holdings.get(symbol);
+    }
+
+    public void blockMargin(BigDecimal margin) {
+        availableMargin = availableMargin.subtract(margin);
+    }
+
+    public void releaseMargin(BigDecimal margin) {
+        availableMargin = availableMargin.add(margin);
+    }
+
+    // TODO: 12/5/2017 dependent on Side enum from parity match lib, need to be fixed
+    public void adjustMarginOnTradeBuy(Symbol symbol, BigDecimal executionPrice, BigDecimal orderPrice, BigDecimal quantity) {
+        mainBalance = mainBalance.subtract(executionPrice.multiply(quantity));
+        // am+=q*(op-ep)
+        ///av=available margin, q=executed quantity, op= order price, ep= execution price
+        availableMargin = availableMargin.add(quantity.multiply(orderPrice.subtract(executionPrice)));
+
+        // TODO: 12/5/2017 holding could be null
+        if ((holdings.get(symbol)) == null)
+            holdings.put(symbol, new Holding(symbol, quantity));
+        else holdings.get(symbol).add(quantity);
+    }
+
+    public void adjustMarginOnTradeSell(Symbol symbol, BigDecimal executionPrice, BigDecimal quantity) {
+        mainBalance = mainBalance.add(executionPrice.multiply(quantity));
+        availableMargin = availableMargin.add(executionPrice.multiply(quantity));
+
+        holdings.get(symbol).remove(quantity);
+    }
+
 
     @Override
     public String toString() {

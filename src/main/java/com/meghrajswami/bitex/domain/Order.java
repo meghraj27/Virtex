@@ -29,7 +29,7 @@ public class Order {
     @Column(name = "PAYMENT_METHOD_NONCE")
     private String paymentMethodNonce;
 
-    @Column(name = "AMOUNT")
+    @Column(name = "AMOUNT", precision = 19, scale = 4)
     private BigDecimal amount;
 
     @Column(name = "PAYMENT_SUCCESS")
@@ -48,7 +48,7 @@ public class Order {
 
     @CreatedBy
     @Column(name = "CREATED_BY")
-    private Long createdBy;
+    private String createdBy;
 
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
@@ -57,7 +57,7 @@ public class Order {
 
     @LastModifiedBy
     @Column(name = "UPDATED_BY")
-    private Long updatedBy;
+    private String updatedBy;
 
 
     protected Order() {
@@ -137,11 +137,11 @@ public class Order {
         this.created = created;
     }
 
-    public Long getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Long createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -153,11 +153,11 @@ public class Order {
         this.updated = updated;
     }
 
-    public Long getUpdatedBy() {
+    public String getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(Long updatedBy) {
+    public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
 }

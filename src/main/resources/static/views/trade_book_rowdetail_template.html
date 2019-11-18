@@ -3,45 +3,35 @@
         <dl class="dl-horizontal">
             <dt>ID:</dt>
             <dd>{{o.id}}</dd>
-            <dt>Symbol:</dt>
-            <dd>{{o.symbol}}</dd>
-            <dt>Buy/Sell:</dt>
-            <dd>{{o.buySell}}</dd>
-            <dt>Type:</dt>
-            <dd>{{o.type}}</dd>
-            <dt>Qty:</dt>
-            <dd>{{o.quantity}}</dd>
-            <dt>Pending Qty:</dt>
-            <dd>{{o.pendingQuantity}}</dd>
+            <dt>Bid By:</dt>
+            <dd>{{o.bidById}}</dd>
+            <dt>Bid Trade Order:</dt>
+            <dd>{{o.bidTradeOrderId}}</dd>
         </dl>
 
     </div>
     <div class="col-sm-3">
         <dl class="dl-horizontal">
-            <dt>Price:</dt>
-            <dd>{{o.price}}</dd>
-            <dt>Value:</dt>
-            <dd>{{o.value}}</dd>
-            <dt>Status:</dt>
-            <dd>{{o.status}}</dd>
-            <dt>Validity:</dt>
-            <dd>{{o.validity}}</dd>
+            <dt>Symbol:</dt>
+            <dd>{{o.symbol}}</dd>
+            <dt>Ask By:</dt>
+            <dd>{{o.askById}}</dd>
+            <dt>Ask Trade Order:</dt>
+            <dd>{{o.askTradeOrderId}}</dd>
+            <dt>Created At:</dt>
+            <dd>{{o.created|date : 'medium'}}</dd>
         </dl>
     </div>
     <div class="col-sm-6">
         <dl class="dl-horizontal">
-            <dt>Trigger Price:</dt>
-            <dd>{{o.triggerPrice}}</dd>
+            <dt>Price:</dt>
+            <dd>{{o.price}}</dd>
+            <dt>Quantity:</dt>
+            <dd>{{o.quantity}}</dd>
+            <dt>Value:</dt>
+            <dd>{{o.value}}</dd>
             <dt>Remarks:</dt>
             <dd>{{o.remarks}}</dd>
-            <dt>Placed By:</dt>
-            <dd>{{o.placedBy}}</dd>
-            <dt>Placed At:</dt>
-            <dd>{{o.created|date : 'medium'}}</dd>
-            <dt>Disclosed Qty:</dt>
-            <dd>{{o.disclosedQty}}</dd>
-            <dt>Traded Qty:</dt>
-            <dd>{{o.tradedQuanity}}</dd>
         </dl>
     </div>
 

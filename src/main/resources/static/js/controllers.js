@@ -56,7 +56,7 @@
  * Contains several global data used in different view
  *
  */
-function MainCtrl($rootScope, $http, $uibModal) {
+function MainCtrl($rootScope, $http) {
 
     var self = this;
     /**
@@ -371,64 +371,6 @@ function MainCtrl($rootScope, $http, $uibModal) {
         }
     });
 
-    this.openBuyOrSell = function (buyOrSellParam, size) {
-        var modalInstance = $uibModal.open({
-            templateUrl: 'views/modal_place_order.html',
-            size: size,
-            resolve: {
-                buyOrSell: function () {
-                    return buyOrSellParam;
-                }
-            },
-            controller: buyModelCtrl
-        });
-
-        function buyModelCtrl($scope, $uibModalInstance, $timeout, $http, buyOrSell) {
-            $scope.order = {
-                buySell: buyOrSell,
-                symbol: 'BTC',
-                type: 'LIMIT'
-            };
-
-            $scope.addToBasket = function () {
-                $scope.loadingAddToBasket = true;
-
-                $timeout(function () {
-                    // Simulate some service and stop loading
-                    $scope.loadingAddToBasket = false;
-                    $uibModalInstance.close();
-                }, 2000);
-            };
-
-            $scope.placeOrder = function () {
-                $scope.loadingPlaceOrder = true;
-
-                $http.post("/trade_orders", $scope.order).then(function (response) {
-                    $scope.loadingPlaceOrder = false;
-                    if (response.data) {
-                        $rootScope.currentUser = response.data;
-                        $uibModalInstance.close();
-                    }
-                });
-            };
-
-            $scope.ok = function () {
-                $scope.loadingPlaceOrder = true;
-
-                $timeout(function () {
-                    // Simulate some service and stop loading
-                    $scope.loadingPlaceOrder = false;
-                    $uibModalInstance.close();
-                }, 2000);
-
-            };
-
-            $scope.cancel = function () {
-                $uibModalInstance.dismiss('cancel');
-            };
-        }
-    }
-
     /**
      * Pie Chart Data
      */
@@ -496,11 +438,11 @@ function MainCtrl($rootScope, $http, $uibModal) {
         $rootScope.customAlert = false;
     });
 
-    $rootScope.$on('IdleTimeout', function() {
+    $rootScope.$on('IdleTimeout', function () {
         self.logout();
     });
 
-    $rootScope.$on('Keepalive', function() {
+    $rootScope.$on('Keepalive', function () {
         $http.get("/me").then(function (response) {
             if (response.data) {
                 $rootScope.currentUser = response.data;
@@ -508,7 +450,25 @@ function MainCtrl($rootScope, $http, $uibModal) {
         });
     });
 
-};
+    $rootScope.networth = function (user, rates) {
+        var mainBalance = (!user.hasOwnProperty("mainBalance") || typeof user.mainBalance == "undefined") ? 0 : user.mainBalance;
+        var holdings = user.holdings;
+        var worth = 0;
+        rates.BTC = 11820; //todo remove it once tested
+        if (rates == null || rates.length == 0)
+            return mainBalance;
+
+        if (holdings != null) {
+            for (var key in holdings) {
+                if (holdings.hasOwnProperty(key)) {
+                    worth += holdings[key].quantity * rates[key];
+                }
+            }
+        }
+        return mainBalance + worth;
+    };
+
+}
 
 function loginCtrl($rootScope, $http, $location) {
     var self = this;
@@ -560,6 +520,399 @@ function loginCtrl($rootScope, $http, $location) {
     };
 }
 
+function dashboardCtrl($rootScope, $http, $sce, $uibModal) {
+    var self = this;
+
+    // set the allowed units for data grouping
+    var groupingUnits = [
+        // [
+        //     'day',
+        //     [1]
+        // ],
+        [
+            'week',                         // unit name
+            [1]                             // allowed multiples
+        ]
+        , [
+            'month',
+            [1, 2, 3, 4, 6]
+        ]
+    ];
+
+    var initData = {};
+    initData.ohlc = [];
+    initData.volume = [];
+
+    self.chartConfig = {
+
+        chartType: 'stock',
+
+        chart: {
+            events: {
+                load: function (event) {
+                    loadChartData();
+                },
+                selection: function (event) {
+                    console.log(event);
+                }
+            }
+        },
+
+        rangeSelector: {
+            selected: 1,
+            buttons: [{
+                type: 'day',
+                count: 1,
+                text: '1d'
+            }, {
+                type: 'week',
+                count: 1,
+                text: '1w'
+            }, {
+                type: 'month',
+                count: 1,
+                text: '1m'
+            }, {
+                type: 'month',
+                count: 3,
+                text: '3m'
+            }, {
+                type: 'month',
+                count: 6,
+                text: '6m'
+            }, {
+                type: 'ytd',
+                text: 'YTD'
+            }, {
+                type: 'year',
+                count: 1,
+                text: '1y'
+            }, {
+                type: 'all',
+                text: 'All'
+            }]
+        },
+
+        title: {
+            text: 'BTC'
+        },
+
+        yAxis: [{
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'OHLC'
+            },
+            height: '60%',
+            lineWidth: 2,
+            resize: {
+                enabled: true
+            }
+        }, {
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'Volume'
+            },
+            top: '65%',
+            height: '35%',
+            offset: 0,
+            lineWidth: 2
+        }],
+
+        tooltip: {
+            split: true
+        },
+
+        series: [createOhlcSeries(initData), createVolumeSeries(initData)]
+    };
+
+    function loadChartData() {
+        var jsonpUrl = 'https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=JSON_CALLBACK';
+        $sce.trustAsResourceUrl(jsonpUrl);
+        $http.jsonp(jsonpUrl).then(function (response) {
+            var ohlcData = arrangeData(response.data);
+            self.chartConfig.series = [];
+            self.chartConfig.series[0] = createOhlcSeries(ohlcData);
+            self.chartConfig.series[1] = createVolumeSeries(ohlcData);
+        });
+    }
+
+    function createOhlcSeries(d) {
+        return {
+            id: 'ohclData',
+            type: 'candlestick',
+            name: 'AAPL',
+            data: d.ohlc,
+            dataGrouping: {
+                units: groupingUnits
+            }
+        };
+    }
+
+    function createVolumeSeries(d) {
+        return {
+            id: 'volumeData',
+            type: 'column',
+            name: 'Volume',
+            data: d.volume,
+            yAxis: 1,
+            dataGrouping: {
+                units: groupingUnits
+            }
+        };
+    }
+
+    function arrangeData(data) {
+        var dataPaired = {},
+            ohlc = [],
+            volume = [];
+        var i = 0,
+            dataLength = data.length;
+        for (i; i < dataLength; i += 1) {
+            ohlc.push([
+                data[i][0], // the date
+                data[i][1], // open
+                data[i][2], // high
+                data[i][3], // low
+                data[i][4] // close
+            ]);
+
+            volume.push([
+                data[i][0], // the date
+                data[i][5] // the volume
+            ]);
+        }
+        dataPaired.ohlc = ohlc;
+        dataPaired.volume = volume;
+
+        return dataPaired;
+    }
+
+    self.depthChartConfig = {
+        chart: {
+            // plotBackgroundColor: null,
+            // plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Depth Chart'
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y:.1f}</b>'
+        },
+        plotOptions: {
+            pie: {
+                // allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            // name: 'Depth',
+            // colorByPoint: true,
+            data: [{
+                name: 'Ask',
+                y: 80567.33
+            }, {
+                name: 'Bid',
+                y: 78983.000896
+            }]
+        }]
+    };
+
+
+    /**
+     * Pie Chart Data
+     */
+    var pieData = [
+        {
+            label: "Bid",
+            data: 0,
+            color: "#1ab394"
+        },
+        {
+            label: "Ask",
+            data: 0,
+            color: "#bababa"
+        }
+    ];
+
+    /**
+     * Pie Chart Options
+     */
+    var pieOptions = {
+        series: {
+            pie: {
+                show: true
+            }
+        },
+        grid: {
+            hoverable: true
+        },
+        tooltip: true,
+        tooltipOpts: {
+            // content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+            content: function (label, xval, yval, flotItem) {
+                return "vol: " + yval;
+            },
+            shifts: {
+                x: 20,
+                y: 0
+            },
+            defaultTheme: false
+        },
+        legend: {
+            show: false
+        }
+    };
+    // self.depthChartCallback = function (plot) {
+    //     console.log(plot.getData());
+    //     var series = plot.getData();
+    //     series[0].data = self.depth.bidQuantityTotal;
+    //     series[1].data = self.depth.askQuantityTotal;
+    //
+    //     plot.setData(series);
+    //     plot.draw();
+    // };
+    self.depthPieChartData = pieData;
+    self.depthPieChartOptions = pieOptions;
+
+    self.depth = {};
+    self.refreshDepthNow = function () {
+        refreshDepth();
+    };
+    refreshDepth();
+    function refreshDepth() {
+        $http.get('stats/depth').then(function (response) {
+            if (response.data) {
+                self.depth = response.data;
+                pieData[0].data = self.depth.bidQuantityTotal;
+                pieData[1].data = self.depth.askQuantityTotal;
+            }
+        });
+    }
+
+    $http.get('trade_orders', {
+        params: {
+            size: 5,
+            sort: 'id,desc'
+        }
+    }).then(function (response) {
+        if (response.data) {
+            self.recentTradeOrders = response.data.content;
+        }
+    });
+    $http.get('trade_transactions', {
+        params: {
+            size: 5,
+            sort: 'id,desc'
+        }
+    }).then(function (response) {
+        if (response.data) {
+            self.recentTrades = response.data.content;
+        }
+    });
+
+    this.openBuyOrSell = function (side, depth, size) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'views/modal_place_order.html',
+            size: size,
+            resolve: {
+                side: function () {
+                    return side;
+                },
+                depth: function () {
+                    return depth;
+                }
+            },
+            controller: buyModalCtrl
+        });
+
+        function buyModalCtrl($scope, $uibModalInstance, $timeout, $http, side, depth) {
+            $scope.depth = depth;
+            var price = 0;
+            if (side == 'BUY') {
+                price = (depth.asks.length == 0) ? 0 : depth.asks[0].price;
+            } else {
+                price = (depth.bids.length == 0) ? 0 : depth.bids[0].price;
+            }
+
+            $scope.order = {
+                side: side,
+                symbol: 'BTC',
+                type: 'LIMIT',
+                price: price,
+                quantity: 0
+            };
+
+            // $scope.signupForm = function () {
+            //     if ($scope.signup_form.$valid) {
+            //         // Submit as normal
+            //     } else {
+            //         $scope.signup_form.submitted = true;
+            //     }
+            // }
+
+            $scope.addToBasket = function () {
+                $scope.loadingAddToBasket = true;
+
+                $timeout(function () {
+                    // Simulate some service and stop loading
+                    $scope.loadingAddToBasket = false;
+                    $uibModalInstance.close();
+                }, 2000);
+            };
+
+            $scope.placeOrder = function () {
+                if ($scope.place_order_form.$valid) {
+                    // Submit as normal
+                    $scope.loadingPlaceOrder = true;
+
+                    $http.post("/trade_orders", $scope.order).then(function (response) {
+                        $scope.loadingPlaceOrder = false;
+                        if (response.data) {
+
+                            $uibModalInstance.close();
+                        }
+                    });
+                } else {
+                    $scope.place_order_form.submitted = true;
+                }
+
+            };
+
+            $scope.ok = function () {
+                $scope.loadingPlaceOrder = true;
+
+                $timeout(function () {
+                    // Simulate some service and stop loading
+                    $scope.loadingPlaceOrder = false;
+                    $uibModalInstance.close();
+                }, 2000);
+
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+        }
+    }
+
+
+}
+
 function tradeBookCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile) {
 
     $scope.dtOptions = DTOptionsBuilder.newOptions()
@@ -588,19 +941,19 @@ function tradeBookCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile) {
             type: 'GET',
             data: function (data) {
                 data.size = data.length;
-                data.page = Math.floor(data.start/data.length);
+                data.page = Math.floor(data.start / data.length);
                 if (data.order.length != 0) {
                     var dir = (data.order[0].dir == 'dsc') ? 'desc' : data.order[0].dir;
                     data.sort = data.columns[data.order[0].column].data + ',' + dir;
                 }
                 return data;
             },
-            dataFilter: function(data){
-                var json = jQuery.parseJSON( data );
+            dataFilter: function (data) {
+                var json = jQuery.parseJSON(data);
                 json.recordsTotal = json.totalElements;
                 json.recordsFiltered = json.totalElements;
 
-                return JSON.stringify( json ); // return JSON string
+                return JSON.stringify(json); // return JSON string
             }
         })
         // .withOption('pagingType', 'scrolling')
@@ -611,6 +964,7 @@ function tradeBookCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile) {
     $scope.dtColumns = [
         DTColumnBuilder.newColumn(null).withOption('defaultContent', '').withOption('ng-click', 'click()').withClass('details-control fa fa-lg').notSortable(),
         DTColumnBuilder.newColumn('id').withTitle('ID'),
+        DTColumnBuilder.newColumn('symbol').withTitle('Symbol'),
         DTColumnBuilder.newColumn('bidById').withTitle('Bid By'),
         DTColumnBuilder.newColumn('bidTradeOrderId').withTitle('Bid Trade Order'),
         DTColumnBuilder.newColumn('askById').withTitle('Ask By'),
@@ -677,19 +1031,19 @@ function tradeOrderBookCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile)
             type: 'GET',
             data: function (data) {
                 data.size = data.length;
-                data.page = Math.floor(data.start/data.length);
+                data.page = Math.floor(data.start / data.length);
                 if (data.order.length != 0) {
                     var dir = (data.order[0].dir == 'dsc') ? 'desc' : data.order[0].dir;
                     data.sort = data.columns[data.order[0].column].data + ',' + dir;
                 }
                 return data;
             },
-            dataFilter: function(data){
-                var json = jQuery.parseJSON( data );
+            dataFilter: function (data) {
+                var json = jQuery.parseJSON(data);
                 json.recordsTotal = json.totalElements;
                 json.recordsFiltered = json.totalElements;
 
-                return JSON.stringify( json ); // return JSON string
+                return JSON.stringify(json); // return JSON string
             }
         })
         // .withOption('pagingType', 'scrolling')
@@ -700,7 +1054,7 @@ function tradeOrderBookCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile)
         DTColumnBuilder.newColumn(null).withOption('defaultContent', '').withOption('ng-click', 'click()').withClass('details-control fa fa-lg').notSortable(),
         DTColumnBuilder.newColumn('id').withTitle('ID'),
         DTColumnBuilder.newColumn('symbol').withTitle('Symbol'),
-        DTColumnBuilder.newColumn('buySell').withTitle('BUY/SELL'),
+        DTColumnBuilder.newColumn('side').withTitle('BUY/SELL'),
         DTColumnBuilder.newColumn('type').withTitle('Type'),
         DTColumnBuilder.newColumn('quantity').withTitle('Qty.'),
         DTColumnBuilder.newColumn('pendingQuantity').withTitle('Pending Qty.'),
@@ -4010,6 +4364,7 @@ angular
     .module('inspinia')
     .controller('MainCtrl', MainCtrl)
     .controller('loginCtrl', loginCtrl)
+    .controller('dashboardCtrl', dashboardCtrl)
     .controller('tradeBookCtrl', tradeBookCtrl)
     .controller('tradeOrderBookCtrl', tradeOrderBookCtrl)
     .controller('dashboardFlotOne', dashboardFlotOne)

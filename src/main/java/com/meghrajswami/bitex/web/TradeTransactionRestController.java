@@ -35,20 +35,20 @@ public class TradeTransactionRestController {
         return new ResponseEntity<Page<TradeTransaction>>(tradeService.listTradeTransactions(pageable), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/trade_transactions", method = RequestMethod.POST)
-    public ResponseEntity<TradeTransaction> createTradeTransaction(@RequestBody TradeTransaction tradeTransaction) {
-        return new ResponseEntity<TradeTransaction>(tradeService.createTradeTransaction(tradeTransaction), HttpStatus.OK);
-    }
+//    @RequestMapping(path = "/trade_transactions", method = RequestMethod.POST)
+//    public ResponseEntity<TradeTransaction> createTradeTransaction(@RequestBody TradeTransaction tradeTransaction) {
+//        return new ResponseEntity<TradeTransaction>(tradeService.createTradeTransaction(tradeTransaction), HttpStatus.OK);
+//    }
 
-    @RequestMapping(path = "/trade_transactions/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<TradeTransaction> updateTradeTransaction(@Param("id") Long id, @RequestBody TradeTransaction tradeTransaction) {
-        return new ResponseEntity<TradeTransaction>(tradeService.updateTradeTransaction(id, tradeTransaction), HttpStatus.OK);
-    }
+//    @RequestMapping(path = "/trade_transactions/{id}", method = RequestMethod.PUT)
+//    public ResponseEntity<TradeTransaction> updateTradeTransaction(@Param("id") Long id, @RequestBody TradeTransaction tradeTransaction) {
+//        return new ResponseEntity<TradeTransaction>(tradeService.updateTradeTransaction(id, tradeTransaction), HttpStatus.OK);
+//    }
 
-    @RequestMapping(path = "/trade_transactions/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Boolean> deleteTradeTransaction(@Param("id") Long id) {
-        tradeService.deleteTradeTransaction(id);
-        return new ResponseEntity<Boolean>(HttpStatus.OK);
-    }
+//    @RequestMapping(path = "/trade_transactions/{id}", method = RequestMethod.DELETE)
+//    public ResponseEntity<Boolean> deleteTradeTransaction(@Param("id") Long id) {
+//        tradeService.deleteTradeTransaction(id);
+//        return new ResponseEntity<Boolean>(HttpStatus.OK);
+//    }
 
 }

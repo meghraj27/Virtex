@@ -40,13 +40,17 @@ public class TradeTransaction {
     @Column(name = "ASK_TRADE_ORDER_ID")
     private Long askTradeOrderId;
 
-    @Column(name = "QUANTITY")
+    @Column(name = "SYMBOL")
+    @Enumerated(EnumType.STRING)
+    private Symbol symbol;
+
+    @Column(name = "QUANTITY", precision = 19, scale = 8)
     private BigDecimal quantity;
 
-    @Column(name = "PRICE")
+    @Column(name = "PRICE", precision = 19, scale = 4)
     private BigDecimal price;
 
-    @Column(name = "VALUE")
+    @Column(name = "VALUE", precision = 19, scale = 4)
     private BigDecimal value;
 
     @CreatedDate
@@ -71,14 +75,15 @@ public class TradeTransaction {
     protected TradeTransaction() {
     }
 
-    public TradeTransaction(Long bidById, Long bidTradeOrderId, Long askById, Long askTradeOrderId, BigDecimal quantity, BigDecimal price, BigDecimal value) {
+    public TradeTransaction(Long bidById, Long bidTradeOrderId, Long askById, Long askTradeOrderId, Symbol symbol, BigDecimal quantity, BigDecimal price) {
         this.bidById = bidById;
         this.bidTradeOrderId = bidTradeOrderId;
         this.askById = askById;
         this.askTradeOrderId = askTradeOrderId;
+        this.symbol = symbol;
         this.quantity = quantity;
         this.price = price;
-        this.value = value;
+        this.value = price.multiply(quantity);
     }
 
     public Long getId() {
@@ -119,6 +124,14 @@ public class TradeTransaction {
 
     public void setAskTradeOrderId(Long askTradeOrderId) {
         this.askTradeOrderId = askTradeOrderId;
+    }
+
+    public Symbol getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(Symbol symbol) {
+        this.symbol = symbol;
     }
 
     public BigDecimal getQuantity() {

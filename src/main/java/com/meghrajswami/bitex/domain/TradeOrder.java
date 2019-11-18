@@ -40,34 +40,34 @@ public class TradeOrder {
 
     @Column(name = "BUY_SELL")
     @Enumerated(EnumType.STRING)
-    private TradeOrderBuySell buySell;
+    private Side side;
 
     @Column(name = "TYPE")
     @Enumerated(EnumType.STRING)
     private TradeOrderType type;
 
-    @Column(name = "PRICE")
+    @Column(name = "PRICE", precision = 19, scale = 4)
     private BigDecimal price;
 
-    @Column(name = "QUANTITY")
+    @Column(name = "QUANTITY", precision = 19, scale = 8)
     private BigDecimal quantity;
 
-    @Column(name = "VALUE")
+    @Column(name = "VALUE", precision = 19, scale = 4)
     private BigDecimal value;
 
-    @Column(name = "TRADED_QUANTITY")
+    @Column(name = "TRADED_QUANTITY", precision = 19, scale = 8)
     private BigDecimal tradedQuantity;
 
-    @Column(name = "PENDING_QUANTITY")
+    @Column(name = "PENDING_QUANTITY", precision = 19, scale = 8)
     private BigDecimal pendingQuantity;
 
-    @Column(name = "DISCLOSED_QUANTITY")
+    @Column(name = "DISCLOSED_QUANTITY", precision = 19, scale = 8)
     private BigDecimal disclosedQuantity;
 
     @Column(name = "VALIDITY")
     private Long validity;
 
-    @Column(name = "TRIGGER_PRICE")
+    @Column(name = "TRIGGER_PRICE", precision = 19, scale = 4)
     private BigDecimal triggerPrice;
 
     @Column(name = "STATUS")
@@ -84,7 +84,7 @@ public class TradeOrder {
 
     @CreatedBy
     @Column(name = "CREATED_BY")
-    private Long createdBy;
+    private String createdBy;
 
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
@@ -93,17 +93,18 @@ public class TradeOrder {
 
     @LastModifiedBy
     @Column(name = "UPDATED_BY")
-    private Long updatedBy;
+    private String updatedBy;
 
 
     protected TradeOrder() {
     }
 
-    public TradeOrder(Long placedBy, Symbol symbol, TradeOrderBuySell buySell, TradeOrderType type, BigDecimal quantity) {
+    public TradeOrder(Long placedBy, Symbol symbol, Side side, TradeOrderType type, BigDecimal price, BigDecimal quantity) {
         this.placedBy = placedBy;
         this.symbol = symbol;
-        this.buySell = buySell;
+        this.side = side;
         this.type = type;
+        this.price = price;
         this.quantity = quantity;
     }
 
@@ -131,12 +132,12 @@ public class TradeOrder {
         this.symbol = symbol;
     }
 
-    public TradeOrderBuySell getBuySell() {
-        return buySell;
+    public Side getSide() {
+        return side;
     }
 
-    public void setBuySell(TradeOrderBuySell buySell) {
-        this.buySell = buySell;
+    public void setSide(Side side) {
+        this.side = side;
     }
 
     public TradeOrderType getType() {
@@ -235,11 +236,11 @@ public class TradeOrder {
         this.created = created;
     }
 
-    public Long getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Long createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -251,20 +252,33 @@ public class TradeOrder {
         this.updated = updated;
     }
 
-    public Long getUpdatedBy() {
+    public String getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(Long updatedBy) {
+    public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
 
-    public enum TradeOrderBuySell {
+    public void trade(BigDecimal quantity) {
+        pendingQuantity = pendingQuantity.subtract(quantity);
+        if (tradedQuantity == null)
+            tradedQuantity = quantity;
+        else tradedQuantity = tradedQuantity.add(quantity);
+    }
+
+    public enum Side {
         BUY, SELL;
     }
 
     public enum TradeOrderStatus {
-        IN_BASKET("in-basket"), PLACED("placed"), PARTIALLY_FULFILLED("partially-fulfilled"), COMPLETELY_FULFILLED("completely-fulfilled"), REJECTED("rejected");
+        IN_BASKET("in-basket"),
+        PLACED("placed"),
+        PARTIALLY_FULFILLED("partially-fulfilled"),
+        COMPLETELY_FULFILLED("completely-fulfilled"),
+        REJECTED("rejected"),
+        EXPIRED("expired");
+
         private final String uriValue;
 
         TradeOrderStatus(String uriValue) {
