@@ -117,3 +117,33 @@ server:
 #tuckey:
 #  urlrewritefilter:
 #    enabled: true
+---
+spring:
+  profiles: heroku
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:{JAWSDB_URL}?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+  resources:
+    cache-period: 5184000
+    chain:
+      cache: true
+      strategy:
+        fixed:
+          enabled: true
+#          paths: /**/*.js,/**/*.map
+          version: ${application.version}
+        content:
+          enabled: true
+      html-application-cache: true
+#security:
+#  require-ssl: true
+server:
+  use-forward-headers: true
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/xml,image/png
+#tuckey:
+#  urlrewritefilter:
+#    enabled: true
