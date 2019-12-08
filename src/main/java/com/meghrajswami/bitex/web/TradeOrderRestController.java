@@ -1,18 +1,8 @@
 package com.meghrajswami.bitex.web;
 
-import static org.jvirtanen.util.Applications.*;
-
 import com.meghrajswami.bitex.domain.TradeOrder;
 import com.meghrajswami.bitex.service.TradeService;
-import com.meghrajswami.bitex.util.parity.Client;
-import com.meghrajswami.bitex.util.parity.event.Order;
-import com.meghrajswami.bitex.util.parity.event.Orders;
-import com.paritytrading.foundation.ASCII;
-import com.paritytrading.parity.net.poe.POE;
-import com.paritytrading.parity.util.Instrument;
-import org.eclipse.collections.api.list.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
@@ -25,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.NoSuchElementException;
 
 /**
  * Created by megh on 7/29/2017.

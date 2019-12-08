@@ -1,7 +1,6 @@
 package com.meghrajswami.bitex.repository;
 
 import com.meghrajswami.bitex.domain.TradeTransaction;
-import com.meghrajswami.bitex.domain.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;

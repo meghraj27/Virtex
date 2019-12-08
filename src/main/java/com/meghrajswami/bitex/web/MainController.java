@@ -17,9 +17,9 @@ import java.security.Principal;
 @Controller
 public class MainController {
     //    @RequestMapping(value = "/{path:[^\\.]*}")
-//    public String redirect() {
-//        return "forward:/";
-//    }
+    //    public String redirect() {
+    //        return "forward:/";
+    //    }
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public String login(Principal principal) {
         return redirectCheck(principal, "login");

@@ -4,7 +4,18 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -58,18 +69,18 @@ public class TradeTransaction {
     @Column(nullable = false, updatable = false)
     private Date created = new Date();
 
-//    @CreatedBy
-//    @Column(name = "CREATED_BY")
-//    private Long createdBy;
+    //    @CreatedBy
+    //    @Column(name = "CREATED_BY")
+    //    private Long createdBy;
 
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date updated = new Date();
 
-//    @LastModifiedBy
-//    @Column(name = "UPDATED_BY")
-//    private Long updatedBy;
+    //    @LastModifiedBy
+    //    @Column(name = "UPDATED_BY")
+    //    private Long updatedBy;
 
 
     protected TradeTransaction() {

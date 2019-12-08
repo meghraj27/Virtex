@@ -3,7 +3,14 @@ package com.meghrajswami.bitex.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 /**
  * Created by megh on 7/30/2017.
@@ -22,7 +29,8 @@ public class Role {
     @Column(name = "NAME", length = 50)
     private String name;
 
-    protected Role(){}
+    protected Role() {
+    }
 
     public Role(String name) {
         this.name = name;

@@ -2,7 +2,6 @@ package com.meghrajswami.bitex.domain;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by megh on 10/29/2017.

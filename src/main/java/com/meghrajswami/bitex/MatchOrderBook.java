@@ -7,7 +7,6 @@ import com.meghrajswami.bitex.domain.User;
 import com.meghrajswami.bitex.repository.TradeOrderRepository;
 import com.meghrajswami.bitex.repository.TradeTransactionRepository;
 import com.meghrajswami.bitex.repository.UserRepository;
-import com.meghrajswami.bitex.util.parity.Client;
 import com.paritytrading.foundation.ASCII;
 import com.paritytrading.foundation.Longs;
 import com.paritytrading.parity.match.OrderBook;
@@ -31,16 +30,16 @@ public class MatchOrderBook implements OrderBookListener {
     private TradeTransactionRepository tradeTransactionRepository;
     private UserRepository userRepository;
     private OrderBook orderBook;
-    private Client parityClient;
+    private ParityConfig parityConfig;
 
-    MatchOrderBook(TradeOrderRepository tradeOrderRepository,
+    MatchOrderBook(ParityConfig parityConfig, TradeOrderRepository tradeOrderRepository,
                    TradeTransactionRepository tradeTransactionRepository,
-                   UserRepository userRepository, Client parityClient) {
+                   UserRepository userRepository) {
+        this.parityConfig = parityConfig;
         this.tradeOrderRepository = tradeOrderRepository;
         this.tradeTransactionRepository = tradeTransactionRepository;
         this.userRepository = userRepository;
         this.orderBook = new OrderBook(this);
-        this.parityClient = parityClient;
     }
 
     public OrderBook getOrderBook() {
@@ -49,14 +48,14 @@ public class MatchOrderBook implements OrderBookListener {
 
     public void regenerateOrderBook() throws Exception {
         List<TradeOrder> tradeOrders = tradeOrderRepository.findPendingOrders();
-        for (TradeOrder order: tradeOrders) {
+        for (TradeOrder order : tradeOrders) {
             Side side = (order.getSide() == TradeOrder.Side.BUY) ? Side.BUY : Side.SELL;
 
             double quantity = order.getPendingQuantity().doubleValue();
             long instrument = ASCII.packLong(order.getSymbol().toString());
             double price = order.getPrice().doubleValue();
 
-            Instrument config = parityClient.getInstruments().get(instrument);
+            Instrument config = parityConfig.getInstruments().get(instrument);
             if (config == null)
                 throw new Exception("instrument " + order.getSymbol() + " don't exist");
 

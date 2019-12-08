@@ -1,11 +1,17 @@
 package com.meghrajswami.bitex.service;
 
-import com.meghrajswami.bitex.domain.*;
+import com.meghrajswami.bitex.ParityConfig;
+import com.meghrajswami.bitex.domain.Depth;
+import com.meghrajswami.bitex.domain.DepthItem;
+import com.meghrajswami.bitex.domain.Holding;
+import com.meghrajswami.bitex.domain.Symbol;
+import com.meghrajswami.bitex.domain.TradeOrder;
+import com.meghrajswami.bitex.domain.TradeTransaction;
+import com.meghrajswami.bitex.domain.User;
 import com.meghrajswami.bitex.repository.OrderRepository;
 import com.meghrajswami.bitex.repository.TradeOrderRepository;
 import com.meghrajswami.bitex.repository.TradeTransactionRepository;
 import com.meghrajswami.bitex.repository.UserRepository;
-import com.meghrajswami.bitex.util.parity.Client;
 import com.paritytrading.foundation.ASCII;
 import com.paritytrading.parity.match.OrderBook;
 import com.paritytrading.parity.match.Side;
@@ -47,7 +53,7 @@ public class TradeService {
     private TradeTransactionRepository tradeTransactionRepository;
 
     @Autowired
-    private Client parityClient;
+    private ParityConfig parityConfig;
 
     @Autowired
     private OrderBook orderBook;
@@ -138,7 +144,7 @@ public class TradeService {
         long instrument = ASCII.packLong(order.getSymbol().toString());
         double price = order.getPrice().doubleValue();
 
-        Instrument config = parityClient.getInstruments().get(instrument);
+        Instrument config = parityConfig.getInstruments().get(instrument);
         if (config == null)
             throw new Exception("instrument " + order.getSymbol() + " don't exist");
 
