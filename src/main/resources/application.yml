@@ -124,7 +124,7 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:{jawsdb.url}?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:${jawsdb.url}?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
   resources:
     cache-period: 5184000
     chain:
