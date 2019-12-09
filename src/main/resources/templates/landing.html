@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="utf-8">
@@ -48,10 +47,10 @@
                             Dashboard
                         </a>
                         <!--<a sec:authorize="hasRole('ROLE_ADMIN')">-->
-                            <!--This content is only shown to administrators.-->
+                        <!--This content is only shown to administrators.-->
                         <!--</a>-->
                         <!--<a sec:authorize="hasRole('ROLE_USER')">-->
-                            <!--This content is only shown to users.-->
+                        <!--This content is only shown to users.-->
                         <!--</a>-->
                     </li>
                 </ul>
@@ -718,9 +717,9 @@
 
     var cbpAnimatedHeader = (function () {
         var docElem = document.documentElement,
-                header = document.querySelector('.navbar-default'),
-                didScroll = false,
-                changeHeaderOn = 200;
+            header = document.querySelector('.navbar-default'),
+            didScroll = false,
+            changeHeaderOn = 200;
 
         function init() {
             window.addEventListener('scroll', function (event) {

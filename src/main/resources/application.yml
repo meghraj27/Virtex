@@ -125,6 +125,8 @@ spring:
       ddl-auto: update
   datasource:
     url: jdbc:${jawsdb.url}?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username:
+    password:
   resources:
     cache-period: 5184000
     chain:

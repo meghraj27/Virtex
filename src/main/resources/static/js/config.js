@@ -143,288 +143,288 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
             url: "/settings",
             templateUrl: "views/settings.html"
         })
-        .state('dashboards', {
-            abstract: true,
-            url: "/dashboards",
-            templateUrl: "views/common/content.html"
-        })
-        .state('dashboards.dashboard_1', {
-            url: "/dashboard_1",
-            templateUrl: "views/dashboard_1.html",
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-
-                            serie: true,
-                            name: 'angular-flot',
-                            files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js',]
-                        },
-                        {
-                            name: 'angles',
-                            files: ['js/plugins/chartJs/angles.js', 'js/plugins/chartJs/Chart.min.js']
-                        },
-                        {
-                            name: 'angular-peity',
-                            files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('dashboards.dashboard_2', {
-            url: "/dashboard_2",
-            templateUrl: "views/dashboard_2.html",
-            data: {pageTitle: 'Dashboard 2'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            serie: true,
-                            name: 'angular-flot',
-                            files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js']
-                        },
-                        {
-                            serie: true,
-                            files: ['js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js', 'js/plugins/jvectormap/jquery-jvectormap-2.0.2.css']
-                        },
-                        {
-                            serie: true,
-                            files: ['js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js']
-                        },
-                        {
-                            name: 'ui.checkbox',
-                            files: ['js/bootstrap/angular-bootstrap-checkbox.js']
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('dashboards.dashboard_3', {
-            url: "/dashboard_3",
-            templateUrl: "views/dashboard_3.html",
-            data: {pageTitle: 'Dashboard 3'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            name: 'angles',
-                            files: ['js/plugins/chartJs/angles.js', 'js/plugins/chartJs/Chart.min.js']
-                        },
-                        {
-                            name: 'angular-peity',
-                            files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
-                        },
-                        {
-                            name: 'ui.checkbox',
-                            files: ['js/bootstrap/angular-bootstrap-checkbox.js']
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('dashboards_top', {
-            abstract: true,
-            url: "/dashboards_top",
-            templateUrl: "views/common/content_top_navigation.html",
-        })
-        .state('dashboards_top.dashboard_4', {
-            url: "/dashboard_4",
-            templateUrl: "views/dashboard_4.html",
-            data: {pageTitle: 'Dashboard 4'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            name: 'angles',
-                            files: ['js/plugins/chartJs/angles.js', 'js/plugins/chartJs/Chart.min.js']
-                        },
-                        {
-                            name: 'angular-peity',
-                            files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
-                        },
-                        {
-                            serie: true,
-                            name: 'angular-flot',
-                            files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js',]
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('dashboards.dashboard_4_1', {
-            url: "/dashboard_4_1",
-            templateUrl: "views/dashboard_4_1.html",
-            data: {pageTitle: 'Dashboard 4'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            name: 'angles',
-                            files: ['js/plugins/chartJs/angles.js', 'js/plugins/chartJs/Chart.min.js']
-                        },
-                        {
-                            name: 'angular-peity',
-                            files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
-                        },
-                        {
-                            serie: true,
-                            name: 'angular-flot',
-                            files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js',]
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('dashboards.dashboard_5', {
-            url: "/dashboard_5",
-            templateUrl: "views/dashboard_5.html",
-            data: {pageTitle: 'Dashboard 5'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            serie: true,
-                            name: 'angular-flot',
-                            files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js',]
-                        },
-                        {
-                            files: ['js/plugins/sparkline/jquery.sparkline.min.js']
-                        }
-                    ]);
-                }
-            }
-        })
+        // .state('dashboards', {
+        //     abstract: true,
+        //     url: "/dashboards",
+        //     templateUrl: "views/common/content.html"
+        // })
+        // .state('dashboards.dashboard_1', {
+        //     url: "/dashboard_1",
+        //     templateUrl: "views/dashboard_1.html",
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //
+        //                     serie: true,
+        //                     name: 'angular-flot',
+        //                     files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js',]
+        //                 },
+        //                 {
+        //                     name: 'angles',
+        //                     files: ['js/plugins/chartJs/angles.js', 'js/plugins/chartJs/Chart.min.js']
+        //                 },
+        //                 {
+        //                     name: 'angular-peity',
+        //                     files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('dashboards.dashboard_2', {
+        //     url: "/dashboard_2",
+        //     templateUrl: "views/dashboard_2.html",
+        //     data: {pageTitle: 'Dashboard 2'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     serie: true,
+        //                     name: 'angular-flot',
+        //                     files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js']
+        //                 },
+        //                 {
+        //                     serie: true,
+        //                     files: ['js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js', 'js/plugins/jvectormap/jquery-jvectormap-2.0.2.css']
+        //                 },
+        //                 {
+        //                     serie: true,
+        //                     files: ['js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js']
+        //                 },
+        //                 {
+        //                     name: 'ui.checkbox',
+        //                     files: ['js/bootstrap/angular-bootstrap-checkbox.js']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('dashboards.dashboard_3', {
+        //     url: "/dashboard_3",
+        //     templateUrl: "views/dashboard_3.html",
+        //     data: {pageTitle: 'Dashboard 3'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     name: 'angles',
+        //                     files: ['js/plugins/chartJs/angles.js', 'js/plugins/chartJs/Chart.min.js']
+        //                 },
+        //                 {
+        //                     name: 'angular-peity',
+        //                     files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
+        //                 },
+        //                 {
+        //                     name: 'ui.checkbox',
+        //                     files: ['js/bootstrap/angular-bootstrap-checkbox.js']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('dashboards_top', {
+        //     abstract: true,
+        //     url: "/dashboards_top",
+        //     templateUrl: "views/common/content_top_navigation.html",
+        // })
+        // .state('dashboards_top.dashboard_4', {
+        //     url: "/dashboard_4",
+        //     templateUrl: "views/dashboard_4.html",
+        //     data: {pageTitle: 'Dashboard 4'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     name: 'angles',
+        //                     files: ['js/plugins/chartJs/angles.js', 'js/plugins/chartJs/Chart.min.js']
+        //                 },
+        //                 {
+        //                     name: 'angular-peity',
+        //                     files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
+        //                 },
+        //                 {
+        //                     serie: true,
+        //                     name: 'angular-flot',
+        //                     files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js',]
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('dashboards.dashboard_4_1', {
+        //     url: "/dashboard_4_1",
+        //     templateUrl: "views/dashboard_4_1.html",
+        //     data: {pageTitle: 'Dashboard 4'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     name: 'angles',
+        //                     files: ['js/plugins/chartJs/angles.js', 'js/plugins/chartJs/Chart.min.js']
+        //                 },
+        //                 {
+        //                     name: 'angular-peity',
+        //                     files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
+        //                 },
+        //                 {
+        //                     serie: true,
+        //                     name: 'angular-flot',
+        //                     files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js',]
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('dashboards.dashboard_5', {
+        //     url: "/dashboard_5",
+        //     templateUrl: "views/dashboard_5.html",
+        //     data: {pageTitle: 'Dashboard 5'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     serie: true,
+        //                     name: 'angular-flot',
+        //                     files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js',]
+        //                 },
+        //                 {
+        //                     files: ['js/plugins/sparkline/jquery.sparkline.min.js']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
         .state('layouts', {
             url: "/layouts",
             templateUrl: "views/layouts.html",
             data: {pageTitle: 'Layouts'},
         })
-        .state('charts', {
-            abstract: true,
-            url: "/charts",
-            templateUrl: "views/common/content.html",
-        })
-        .state('charts.flot_chart', {
-            url: "/flot_chart",
-            templateUrl: "views/graph_flot.html",
-            data: {pageTitle: 'Flot chart'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            serie: true,
-                            name: 'angular-flot',
-                            files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js',]
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('charts.rickshaw_chart', {
-            url: "/rickshaw_chart",
-            templateUrl: "views/graph_rickshaw.html",
-            data: {pageTitle: 'Rickshaw chart'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            reconfig: true,
-                            serie: true,
-                            files: ['js/plugins/rickshaw/vendor/d3.v3.js', 'js/plugins/rickshaw/rickshaw.min.js']
-                        },
-                        {
-                            reconfig: true,
-                            name: 'angular-rickshaw',
-                            files: ['js/plugins/rickshaw/angular-rickshaw.js']
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('charts.peity_chart', {
-            url: "/peity_chart",
-            templateUrl: "views/graph_peity.html",
-            data: {pageTitle: 'Peity graphs'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            name: 'angular-peity',
-                            files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('charts.sparkline_chart', {
-            url: "/sparkline_chart",
-            templateUrl: "views/graph_sparkline.html",
-            data: {pageTitle: 'Sparkline chart'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            files: ['js/plugins/sparkline/jquery.sparkline.min.js']
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('charts.chartjs_chart', {
-            url: "/chartjs_chart",
-            templateUrl: "views/chartjs.html",
-            data: {pageTitle: 'Chart.js'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            files: ['js/plugins/chartJs/Chart.min.js']
-                        },
-                        {
-                            name: 'angles',
-                            files: ['js/plugins/chartJs/angles.js']
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('charts.chartist_chart', {
-            url: "/chartist_chart",
-            templateUrl: "views/chartist.html",
-            data: {pageTitle: 'Chartist'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            serie: true,
-                            name: 'angular-chartist',
-                            files: ['js/plugins/chartist/chartist.min.js', 'css/plugins/chartist/chartist.min.css', 'js/plugins/chartist/angular-chartist.min.js']
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('charts.c3charts', {
-            url: "/c3charts",
-            templateUrl: "views/c3charts.html",
-            data: {pageTitle: 'c3charts'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            serie: true,
-                            files: ['css/plugins/c3/c3.min.css', 'js/plugins/d3/d3.min.js', 'js/plugins/c3/c3.min.js']
-                        },
-                        {
-                            serie: true,
-                            name: 'gridshore.c3js.chart',
-                            files: ['js/plugins/c3/c3-angular.min.js']
-                        }
-                    ]);
-                }
-            }
-        })
+        // .state('charts', {
+        //     abstract: true,
+        //     url: "/charts",
+        //     templateUrl: "views/common/content.html",
+        // })
+        // .state('charts.flot_chart', {
+        //     url: "/flot_chart",
+        //     templateUrl: "views/graph_flot.html",
+        //     data: {pageTitle: 'Flot chart'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     serie: true,
+        //                     name: 'angular-flot',
+        //                     files: ['js/plugins/flot/jquery.flot.js', 'js/plugins/flot/jquery.flot.time.js', 'js/plugins/flot/jquery.flot.tooltip.min.js', 'js/plugins/flot/jquery.flot.spline.js', 'js/plugins/flot/jquery.flot.resize.js', 'js/plugins/flot/jquery.flot.pie.js', 'js/plugins/flot/curvedLines.js', 'js/plugins/flot/angular-flot.js',]
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('charts.rickshaw_chart', {
+        //     url: "/rickshaw_chart",
+        //     templateUrl: "views/graph_rickshaw.html",
+        //     data: {pageTitle: 'Rickshaw chart'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     reconfig: true,
+        //                     serie: true,
+        //                     files: ['js/plugins/rickshaw/vendor/d3.v3.js', 'js/plugins/rickshaw/rickshaw.min.js']
+        //                 },
+        //                 {
+        //                     reconfig: true,
+        //                     name: 'angular-rickshaw',
+        //                     files: ['js/plugins/rickshaw/angular-rickshaw.js']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('charts.peity_chart', {
+        //     url: "/peity_chart",
+        //     templateUrl: "views/graph_peity.html",
+        //     data: {pageTitle: 'Peity graphs'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     name: 'angular-peity',
+        //                     files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('charts.sparkline_chart', {
+        //     url: "/sparkline_chart",
+        //     templateUrl: "views/graph_sparkline.html",
+        //     data: {pageTitle: 'Sparkline chart'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     files: ['js/plugins/sparkline/jquery.sparkline.min.js']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('charts.chartjs_chart', {
+        //     url: "/chartjs_chart",
+        //     templateUrl: "views/chartjs.html",
+        //     data: {pageTitle: 'Chart.js'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     files: ['js/plugins/chartJs/Chart.min.js']
+        //                 },
+        //                 {
+        //                     name: 'angles',
+        //                     files: ['js/plugins/chartJs/angles.js']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('charts.chartist_chart', {
+        //     url: "/chartist_chart",
+        //     templateUrl: "views/chartist.html",
+        //     data: {pageTitle: 'Chartist'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     serie: true,
+        //                     name: 'angular-chartist',
+        //                     files: ['js/plugins/chartist/chartist.min.js', 'css/plugins/chartist/chartist.min.css', 'js/plugins/chartist/angular-chartist.min.js']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('charts.c3charts', {
+        //     url: "/c3charts",
+        //     templateUrl: "views/c3charts.html",
+        //     data: {pageTitle: 'c3charts'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     serie: true,
+        //                     files: ['css/plugins/c3/c3.min.css', 'js/plugins/d3/d3.min.js', 'js/plugins/c3/c3.min.js']
+        //                 },
+        //                 {
+        //                     serie: true,
+        //                     name: 'gridshore.c3js.chart',
+        //                     files: ['js/plugins/c3/c3-angular.min.js']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
         .state('mailbox', {
             abstract: true,
             url: "/mailbox",
