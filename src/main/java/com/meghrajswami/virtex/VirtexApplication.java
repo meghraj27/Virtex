@@ -30,12 +30,12 @@ import java.io.IOException;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class BitexApplication {
+public class VirtexApplication {
 
-    private static final Logger logger = LoggerFactory.getLogger(BitexApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(VirtexApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(BitexApplication.class, args);
+        SpringApplication.run(VirtexApplication.class, args);
     }
 
     @Bean
@@ -76,7 +76,7 @@ public class BitexApplication {
         }
     }
 
-    //    private static final Logger logger = LoggerFactory.getLogger(BitexApplication.class);
+    //    private static final Logger logger = LoggerFactory.getLogger(VirtexApplication.class);
     //
     //    @Bean
     //    public CommandLineRunner commandLineRunner(UserRepository ur) {
