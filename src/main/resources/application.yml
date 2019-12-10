@@ -10,7 +10,7 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        dialect: com.meghrajswami.bitex.CustomMysqlDialect
+        dialect: com.meghrajswami.virtex.CustomMysqlDialect
   jackson:
     mapper:
       DEFAULT_VIEW_INCLUSION: true
@@ -20,14 +20,6 @@ server:
   error:
     whitelabel:
       enabled: false
-#parity:
-#  client:
-#    order-entry:
-#      address: 127.0.0.1
-#      port: 4000
-#      username: parity
-#      password: parity
-
 ---
 spring:
   profiles: local
@@ -50,37 +42,7 @@ spring:
 #  data:
 #    elasticsearch:
 #      cluster-nodes: localhost:9300
-  mail:
-    host: email-smtp.us-east-1.amazonaws.com
-    port: 587
-    username: AKIAIXYNEVPMVB6FLX4Q
-    password: AkThDNVP8xYB+FJhF9rh3DWVsc4hmHd5mdrK880ROvBS
-    properties:
-      mail:
-        smtp:
-          connectiontimeout: 5000
-          timeout: 3000
-          writetimeout: 5000
-          auth: true
-          starttls:
-            enable: true
-            required: true
-#  boot:
-#    admin:
-#      url: http://localhost:8081
-#      username: sbaadmin
-#      password: admin54
-#      client:
-#        name: Bitex
-#        prefer-ip: true
-#management:
-#  security:
-#    enabled: false
-#tuckey:
-#  urlrewritefilter:
-#    enabled: false
 #server:
-#  address: 127.0.0.1
 #  compression:
 #    enabled: true
 #    mime-types: text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/xml,image/png
@@ -109,14 +71,10 @@ spring:
 #security:
 #  require-ssl: true
 server:
-  port: ${port}
   use-forward-headers: true
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/xml,image/png
-#tuckey:
-#  urlrewritefilter:
-#    enabled: true
 ---
 spring:
   profiles: heroku
@@ -146,6 +104,3 @@ server:
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/xml,image/png
-#tuckey:
-#  urlrewritefilter:
-#    enabled: true

@@ -618,36 +618,36 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 }
             }
         })
-        .state('forms.wizard', {
-            url: "/wizard",
-            templateUrl: "views/form_wizard.html",
-            controller: wizardCtrl,
-            data: {pageTitle: 'Wizard form'},
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            files: ['css/plugins/steps/jquery.steps.css']
-                        }
-                    ]);
-                }
-            }
-        })
-        .state('forms.wizard.step_one', {
-            url: '/step_one',
-            templateUrl: 'views/wizard/step_one.html',
-            data: {pageTitle: 'Wizard form'}
-        })
-        .state('forms.wizard.step_two', {
-            url: '/step_two',
-            templateUrl: 'views/wizard/step_two.html',
-            data: {pageTitle: 'Wizard form'}
-        })
-        .state('forms.wizard.step_three', {
-            url: '/step_three',
-            templateUrl: 'views/wizard/step_three.html',
-            data: {pageTitle: 'Wizard form'}
-        })
+        // .state('forms.wizard', {
+        //     url: "/wizard",
+        //     templateUrl: "views/form_wizard.html",
+        //     controller: wizardCtrl,
+        //     data: {pageTitle: 'Wizard form'},
+        //     resolve: {
+        //         loadPlugin: function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load([
+        //                 {
+        //                     files: ['css/plugins/steps/jquery.steps.css']
+        //                 }
+        //             ]);
+        //         }
+        //     }
+        // })
+        // .state('forms.wizard.step_one', {
+        //     url: '/step_one',
+        //     templateUrl: 'views/wizard/step_one.html',
+        //     data: {pageTitle: 'Wizard form'}
+        // })
+        // .state('forms.wizard.step_two', {
+        //     url: '/step_two',
+        //     templateUrl: 'views/wizard/step_two.html',
+        //     data: {pageTitle: 'Wizard form'}
+        // })
+        // .state('forms.wizard.step_three', {
+        //     url: '/step_three',
+        //     templateUrl: 'views/wizard/step_three.html',
+        //     data: {pageTitle: 'Wizard form'}
+        // })
         .state('forms.file_upload', {
             url: "/file_upload",
             templateUrl: "views/form_file_upload.html",
