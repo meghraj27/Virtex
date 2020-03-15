@@ -1,4 +1,4 @@
-package com.meghrajswami.virtex.web;
+package com.meghrajswami.virtex.controller.rest;
 
 import org.springframework.web.bind.annotation.RestController;
 

@@ -5,36 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.ManyToMany;
-import javax.persistence.MapKeyEnumerated;
-import javax.persistence.MapKeyJoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Currency;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by megh on 6/30/2016.
@@ -45,9 +22,11 @@ import java.util.Map;
 @Table(name = "`USER`",
         indexes = {
                 @Index(columnList = "NAME")})
-public class User implements Serializable {
+public class User extends AuditableEntity implements Serializable {
 
-    //    @JsonView(View.PublicSummary.class)
+    /**
+     * The unique id of the entity.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -69,7 +48,8 @@ public class User implements Serializable {
     private String name;
 
     @JsonView(View.RoleOwner.class)
-    @Column(name = "USERNAME")
+    @Column(name = "USERNAME", unique = true)
+    @NotNull
     private String username;
 
     @JsonView(View.RoleAdmin.class)
@@ -79,19 +59,22 @@ public class User implements Serializable {
 
     @JsonView(View.RoleAdmin.class)
     @Column(name = "ENABLED")
+    @NotNull
     private Boolean enabled;
 
     @JsonView(View.RoleAdmin.class)
     @ManyToMany
-    private Collection<Role> roles;
+    private Collection<Role> roles = new ArrayList<>();
 
     @JsonView(View.RoleOwner.class)
     @Column(name = "EMAIL")
+    @NotNull
     private String email;
 
     @JsonView(View.RoleOwner.class)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "EMAIL_VERIFIED")
+    @NotNull
     private Boolean emailVerified;
 
     @JsonView(View.RoleUser.class)
@@ -169,37 +152,33 @@ public class User implements Serializable {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<Symbol, Holding> holdings = new HashMap<>();
 
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false, updatable = false)
-    private Date created = new Date();
-
-    @CreatedBy
-    @Column(name = "CREATED_BY")
-    private String createdBy;
-
-    @LastModifiedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date updated = new Date();
-
-    @LastModifiedBy
-    @Column(name = "UPDATED_BY")
-    private String updatedBy;
-
     protected User() {
     }
 
-    public User(String name, String email, String photoUrlLarge) {
+    public User(String name, String email, String password) {
         this.name = name;
+        this.username = email;
         this.email = email;
-        this.photoUrlLarge = photoUrlLarge;
+        this.password = password;
+        this.enabled = true;
+        this.emailVerified = false;
     }
 
+    public User(String name, String email, String photoUrlLarge, boolean emailVerified) {
+        this.name = name;
+        this.username = email;
+        this.email = email;
+        this.photoUrlLarge = photoUrlLarge;
+        this.enabled = true;
+        this.emailVerified = emailVerified;
+    }
+
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -414,38 +393,6 @@ public class User implements Serializable {
         return holdings;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
     public void addDebugData(String data) {
         JsonObject jsonObjectDebugData = new Gson().fromJson(data, JsonObject.class);
         JsonObject o = jsonObjectDebugData.getAsJsonObject("data");
@@ -485,36 +432,31 @@ public class User implements Serializable {
         holdings.get(symbol).remove(quantity);
     }
 
-
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", photoUrlSmall='" + photoUrlSmall + '\'' +
                 ", photoUrlMedium='" + photoUrlMedium + '\'' +
                 ", photoUrlLarge='" + photoUrlLarge + '\'' +
                 ", name='" + name + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", enabled='" + enabled + '\'' +
+                ", enabled=" + enabled +
+                ", roles=" + roles +
                 ", email='" + email + '\'' +
                 ", emailVerified=" + emailVerified +
-                ", description='" + description + '\'' +
                 ", fbId=" + fbId +
                 ", googleId='" + googleId + '\'' +
                 ", authSite='" + authSite + '\'' +
-                ", accessToken='" + accessToken + '\'' +
-                ", refreshToken='" + refreshToken + '\'' +
-                ", tokenExpireAt=" + tokenExpireAt +
                 ", facebookLink='" + facebookLink + '\'' +
                 ", linkedInLink='" + linkedInLink + '\'' +
                 ", twitterLink='" + twitterLink + '\'' +
                 ", googleLink='" + googleLink + '\'' +
                 ", paidOrderId=" + paidOrderId +
-                ", created=" + created +
-                ", createdBy=" + createdBy +
-                ", updated=" + updated +
-                ", updatedBy=" + updatedBy +
+                ", defaultCurrency='" + defaultCurrency + '\'' +
+                ", mainBalance=" + mainBalance +
+                ", availableMargin=" + availableMargin +
+                ", holdings=" + holdings +
                 '}';
     }
 

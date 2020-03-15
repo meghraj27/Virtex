@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "virtex.instruments-config",
+      "type": "java.lang.String",
+      "description": "Instruments Configuration file location in relative to classpath i.e. instruments.conf"
+    }
+  ]
+}

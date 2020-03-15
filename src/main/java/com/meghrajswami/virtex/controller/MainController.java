@@ -1,13 +1,16 @@
-package com.meghrajswami.virtex.web;
+package com.meghrajswami.virtex.controller;
 
-import com.meghrajswami.virtex.domain.User;
+import com.meghrajswami.virtex.domain.form.RegisterForm;
+import com.meghrajswami.virtex.exception.ConfigurationException;
+import com.meghrajswami.virtex.service.UserService;
+import com.meghrajswami.virtex.util.Helper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -16,6 +19,21 @@ import java.security.Principal;
  */
 @Controller
 public class MainController {
+
+
+    @Autowired
+    private UserService userService;
+
+    /**
+     * Check if all the required fields are initialized properly.
+     *
+     * @throws ConfigurationException if any of the required field(s) is(are) not initialized properly.
+     */
+    @PostConstruct
+    protected void checkConfiguration() {
+        Helper.checkConfigNotNull(userService, "userService");
+    }
+
     //    @RequestMapping(value = "/{path:[^\\.]*}")
     //    public String redirect() {
     //        return "forward:/";
@@ -31,12 +49,12 @@ public class MainController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String submit(@Valid @ModelAttribute("user") User user,
-                         BindingResult result, Model model) {
+    public String submit(@Valid RegisterForm registerForm,
+                         BindingResult result) {
         if (result.hasErrors()) {
-            return "error";
+            return "register";
         }
-        model.addAttribute("user", user);
+        userService.createUser(registerForm);
         return "redirect:/login";
     }
 
