@@ -15,10 +15,10 @@ public class CustomErrorAttributes extends DefaultErrorAttributes {
     @Value("${application.version}")
     private String VERSION;
 
-    private static final String APP_NAME_KEY = "app_name";
-
-    @Value("${application.title}")
-    private String APP_NAME;
+//    private static final String APP_NAME_KEY = "app_name";
+//
+//    @Value("${application.title}")
+//    private String APP_NAME;
 
     @Override
     public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
@@ -26,7 +26,7 @@ public class CustomErrorAttributes extends DefaultErrorAttributes {
         Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace);
 
         errorAttributes.put(VERSION_KEY, VERSION);
-        errorAttributes.put(APP_NAME_KEY, APP_NAME);
+//        errorAttributes.put(APP_NAME_KEY, APP_NAME);
 
         return errorAttributes;
 

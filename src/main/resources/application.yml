@@ -24,15 +24,6 @@ server:
 virtex:
   instruments_config:
     instruments-example.conf
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
 ---
 spring:
   profiles: local
@@ -59,6 +50,16 @@ spring:
 #  compression:
 #    enabled: true
 #    mime-types: text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/xml,image/png
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
 ---
 spring:
   profiles: eb

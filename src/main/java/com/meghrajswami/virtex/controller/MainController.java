@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 /**
- * Created by megh on 7/27/2017.
+ * Created by Meghraj.
  */
 @Controller
 public class MainController {
@@ -51,7 +51,7 @@ public class MainController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(@Valid RegisterForm registerForm,
-                         BindingResult result) {
+                           BindingResult result) {
         if (result.hasErrors()) {
             return "register";
         }
