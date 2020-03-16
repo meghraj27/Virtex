@@ -1,4 +1,6 @@
-# Virtex
+Virtex - JAVA Skills Demo
+===
+
 It's an App developed to **Demonstrate My Skills**.  
 
 This application is for a Virtual exchange that can be used for trading of any virtual instrument by way of bidding.  
