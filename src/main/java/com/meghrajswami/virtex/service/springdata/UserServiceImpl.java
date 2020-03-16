@@ -1,6 +1,7 @@
 package com.meghrajswami.virtex.service.springdata;
 
 import com.meghrajswami.virtex.domain.User;
+import com.meghrajswami.virtex.domain.form.ForgotPasswordForm;
 import com.meghrajswami.virtex.domain.form.RegisterForm;
 import com.meghrajswami.virtex.repository.UserRepository;
 import com.meghrajswami.virtex.service.TradeService;
@@ -34,6 +35,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public void forgotPassword(ForgotPasswordForm forgotPasswordForm) {
+        checkUserExist(forgotPasswordForm.getEmail());
+        //Todo: password reset procedure
     }
 
     private boolean checkUserExist(String username) {

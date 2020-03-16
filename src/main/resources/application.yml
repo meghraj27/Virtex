@@ -2,9 +2,9 @@ application:
   version: 0.1
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/virtex?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
-    username: virtex
-    password: virtex
+    url: jdbc:mysql://${db.host}:${db.port}/${db.name}?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: ${db.username}
+    password: ${db.password}
   jpa:
     hibernate:
       ddl-auto: none
@@ -22,7 +22,7 @@ server:
     whitelabel:
       enabled: false
 virtex:
-  instruments-config:
+  instruments_config:
     instruments-example.conf
 logging:
   level:

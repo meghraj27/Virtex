@@ -1,6 +1,7 @@
 package com.meghrajswami.virtex.service;
 
 import com.meghrajswami.virtex.domain.User;
+import com.meghrajswami.virtex.domain.form.ForgotPasswordForm;
 import com.meghrajswami.virtex.domain.form.RegisterForm;
 
 public interface UserService {
@@ -21,4 +22,5 @@ public interface UserService {
      */
     User getUserByUsername(String username);
 
+    void forgotPassword(ForgotPasswordForm forgotPasswordForm);
 }

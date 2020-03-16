@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
  */
 @Getter
 @Setter
-public class ChangePasswordForm {
+public class ForgotPasswordForm {
 
     /**
      * Represents the email.
@@ -24,26 +24,5 @@ public class ChangePasswordForm {
     @Size(min = 3, max = 100, message = "email length must be 3-100 characters long")
     @Email
     private String email;
-
-    /**
-     * The token.
-     */
-    @NotNull
-    private String forgotPasswordToken;
-
-    /**
-     * Represents the old password.
-     */
-    @NotNull
-    @NotNull
-    @Size(min = 2, max = 50, message = "password size must be 2-50 characters long")
-    private String oldPassword;
-
-    /**
-     * The new password.
-     */
-    @NotNull
-    @Size(min = 2, max = 50, message = "password size must be 2-50 characters long")
-    private String newPassword;
 }
 

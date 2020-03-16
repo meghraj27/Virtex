@@ -1,5 +1,6 @@
 package com.meghrajswami.virtex.controller;
 
+import com.meghrajswami.virtex.domain.form.ForgotPasswordForm;
 import com.meghrajswami.virtex.domain.form.RegisterForm;
 import com.meghrajswami.virtex.exception.ConfigurationException;
 import com.meghrajswami.virtex.service.UserService;
@@ -44,12 +45,12 @@ public class MainController {
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
-    public String register(Principal principal) {
+    public String getRegisterPage(Principal principal) {
         return redirectCheck(principal, "register");
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String submit(@Valid RegisterForm registerForm,
+    public String register(@Valid RegisterForm registerForm,
                          BindingResult result) {
         if (result.hasErrors()) {
             return "register";
@@ -59,8 +60,18 @@ public class MainController {
     }
 
     @RequestMapping(path = "/forgot-password", method = RequestMethod.GET)
-    public String forgotPassword(Principal principal) {
+    public String getForgotPasswordPage(Principal principal) {
         return redirectCheck(principal, "forgot_password");
+    }
+
+    @RequestMapping(path = "/forgot-password", method = RequestMethod.POST)
+    public String forgotPassword(@Valid ForgotPasswordForm forgotPasswordForm,
+                                 BindingResult result) {
+        if (result.hasErrors()) {
+            return "register";
+        }
+        userService.forgotPassword(forgotPasswordForm);
+        return "redirect:/forgot-password?success=true&email=" + forgotPasswordForm.getEmail();
     }
 
     @RequestMapping(path = "/")
