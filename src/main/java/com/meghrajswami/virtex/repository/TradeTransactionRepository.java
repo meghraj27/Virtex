@@ -1,15 +1,11 @@
 package com.meghrajswami.virtex.repository;
 
-import com.meghrajswami.virtex.domain.NetPosition;
 import com.meghrajswami.virtex.domain.TradeTransaction;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Created by megh on 5/7/2017.

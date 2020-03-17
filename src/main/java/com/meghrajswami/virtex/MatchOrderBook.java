@@ -18,10 +18,9 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 /**
- * Created by megh on 12/4/2017.
+ * Created by Meghraj on 12/4/2017.
  */
 public class MatchOrderBook implements OrderBookListener {
 

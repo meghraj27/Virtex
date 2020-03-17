@@ -1,8 +1,19 @@
 package com.meghrajswami.virtex.service.springdata;
 
 import com.meghrajswami.virtex.ParityConfig;
-import com.meghrajswami.virtex.domain.*;
-import com.meghrajswami.virtex.repository.*;
+import com.meghrajswami.virtex.domain.Depth;
+import com.meghrajswami.virtex.domain.DepthItem;
+import com.meghrajswami.virtex.domain.Holding;
+import com.meghrajswami.virtex.domain.NetPosition;
+import com.meghrajswami.virtex.domain.Symbol;
+import com.meghrajswami.virtex.domain.TradeOrder;
+import com.meghrajswami.virtex.domain.TradeTransaction;
+import com.meghrajswami.virtex.domain.User;
+import com.meghrajswami.virtex.repository.NetPositionRepository;
+import com.meghrajswami.virtex.repository.OrderRepository;
+import com.meghrajswami.virtex.repository.TradeOrderRepository;
+import com.meghrajswami.virtex.repository.TradeTransactionRepository;
+import com.meghrajswami.virtex.repository.UserRepository;
 import com.meghrajswami.virtex.service.TradeService;
 import com.paritytrading.foundation.ASCII;
 import com.paritytrading.parity.match.OrderBook;
