@@ -11,10 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 
@@ -27,7 +25,7 @@ import java.math.BigDecimal;
         indexes = {
                 @Index(columnList = "PLACED_BY"),
                 @Index(columnList = "SYMBOL"),
-                @Index(columnList = "BUY_SELL"),
+                @Index(columnList = "SIDE"),
                 @Index(columnList = "PENDING_QUANTITY"),
                 @Index(columnList = "STATUS")
         }
@@ -37,15 +35,14 @@ import java.math.BigDecimal;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TradeOrder extends AuditableUserEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    @Column(name = "PLACED_BY")
     private Long placedBy;
 
+    @Column(name = "SYMBOL")
     @Enumerated(EnumType.STRING)
     private Symbol symbol;
 
+    @Column(name = "SIDE")
     @Enumerated(EnumType.STRING)
     private Side side;
 
@@ -64,7 +61,7 @@ public class TradeOrder extends AuditableUserEntity {
     @Column(precision = 19, scale = 8)
     private BigDecimal tradedQuantity;
 
-    @Column(precision = 19, scale = 8)
+    @Column(name = "PENDING_QUANTITY", precision = 19, scale = 8)
     private BigDecimal pendingQuantity;
 
     @Column(precision = 19, scale = 8)
@@ -75,6 +72,7 @@ public class TradeOrder extends AuditableUserEntity {
     @Column(precision = 19, scale = 4)
     private BigDecimal triggerPrice;
 
+    @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
     private TradeOrderStatus status;
 

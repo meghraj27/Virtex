@@ -161,7 +161,23 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
         })
         .state('settings', {
             url: "/settings",
-            templateUrl: "views/settings.html"
+            templateUrl: "views/settings.html",
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            name: 'angular-ladda',
+                            files: [
+                                'js/plugins/ladda/spin.min.js',
+                                'js/plugins/ladda/ladda.min.js',
+                                'css/plugins/ladda/ladda-themeless.min.css',
+                                'js/plugins/ladda/angular-ladda.min.js'
+                            ]
+                        }
+                    ]);
+                }
+            }
         })
         // .state('dashboards', {
         //     abstract: true,
@@ -1630,6 +1646,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
         });
 
 }
+
 angular
     .module('inspinia')
     .config(config)

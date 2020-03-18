@@ -1,8 +1,10 @@
 package com.meghrajswami.virtex.service;
 
 import com.meghrajswami.virtex.domain.User;
+import com.meghrajswami.virtex.domain.form.ChangePasswordForm;
 import com.meghrajswami.virtex.domain.form.ForgotPasswordForm;
 import com.meghrajswami.virtex.domain.form.RegisterForm;
+import com.meghrajswami.virtex.exception.AccessDeniedException;
 
 public interface UserService {
 
@@ -23,4 +25,6 @@ public interface UserService {
     User getUserByUsername(String username);
 
     void forgotPassword(ForgotPasswordForm forgotPasswordForm);
+
+    void changePassword(ChangePasswordForm changePasswordForm) throws AccessDeniedException;
 }

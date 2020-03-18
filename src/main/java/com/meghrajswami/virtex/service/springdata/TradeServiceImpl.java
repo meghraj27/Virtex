@@ -15,6 +15,7 @@ import com.meghrajswami.virtex.repository.TradeOrderRepository;
 import com.meghrajswami.virtex.repository.TradeTransactionRepository;
 import com.meghrajswami.virtex.repository.UserRepository;
 import com.meghrajswami.virtex.service.TradeService;
+import com.meghrajswami.virtex.util.Helper;
 import com.paritytrading.foundation.ASCII;
 import com.paritytrading.parity.match.OrderBook;
 import com.paritytrading.parity.match.Side;
@@ -33,15 +34,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Created by megh on 10/14/2017.
+ * Created by Meghraj on 10/14/2017.
  */
 @Service
 public class TradeServiceImpl implements TradeService {
 
     private Logger logger = LoggerFactory.getLogger(TradeServiceImpl.class);
-
-    //    @Autowired
-    //    private Principal principal;
 
     @Autowired
     private UserRepository userRepository;
@@ -64,11 +62,6 @@ public class TradeServiceImpl implements TradeService {
     @Autowired
     private OrderBook orderBook;
 
-    private User getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userRepository.findByUsername(((org.springframework.security.core.userdetails.User) principal).getUsername());
-    }
-
     public TradeOrder getOrder(Long id) {
         return tradeOrderRepository.findById(id).get();
     }
@@ -78,7 +71,7 @@ public class TradeServiceImpl implements TradeService {
     }
 
     public TradeOrder createOrder(TradeOrder tradeOrder) throws Exception {
-        User currentUser = getCurrentUser();
+        User currentUser = Helper.getAuthUser();
         tradeOrder.setPlacedBy(currentUser.getId());
         switch (tradeOrder.getSide()) {
             case BUY:

@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
-import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
 /**
  * The base class for auditable user entity.
@@ -15,6 +15,7 @@ import javax.persistence.Column;
  * @author Meghraj
  * @version 1.0
  */
+@MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

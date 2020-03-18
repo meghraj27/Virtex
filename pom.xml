@@ -22,11 +22,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-
-<!--		<thymeleaf.version>3.0.6.RELEASE</thymeleaf.version>-->
-<!--		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>-->
-<!--        <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>-->
-
         <eclipse.collections.version>8.0.0</eclipse.collections.version>
 	</properties>
 
@@ -71,11 +66,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.security</groupId>-->
-			<!--<artifactId>spring-security-test</artifactId>-->
-			<!--<scope>test</scope>-->
-		<!--</dependency>-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -90,29 +80,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-jdbc</artifactId>-->
-        <!--</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>de.codecentric</groupId>-->
-			<!--<artifactId>spring-boot-admin-starter-client</artifactId>-->
-			<!--<version>1.5.3</version>-->
-		<!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.jvirtanen.config</groupId>-->
-            <!--<artifactId>config-extras</artifactId>-->
-            <!--<version>0.2.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.jvirtanen.util</groupId>-->
-            <!--<artifactId>util-extras</artifactId>-->
-            <!--<version>0.2.0</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.eclipse.collections</groupId>
             <artifactId>eclipse-collections-api</artifactId>

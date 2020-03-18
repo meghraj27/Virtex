@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * The custom user details.
  *
- * @author TCSDEVELOPER
+ * @author Meghraj
  * @version 1.0
  */
 public class CustomUserDetails extends org.springframework.security.core.userdetails.User {

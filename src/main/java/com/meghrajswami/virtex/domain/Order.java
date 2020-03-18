@@ -9,9 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -21,16 +18,16 @@ import java.math.BigDecimal;
  */
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "`ORDER`", indexes = {@Index(columnList = "USER_ID"), @Index(columnList = "PAYMENT_REF_ID")})
+@Table(name = "`ORDER`", indexes = {
+        @Index(columnList = "USER_ID"),
+        @Index(columnList = "PAYMENT_REF_ID")
+})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order extends AuditableUserEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    @Column(name = "USER_ID")
     private Long userId;
 
     private String paymentMethodNonce;
@@ -40,7 +37,7 @@ public class Order extends AuditableUserEntity {
 
     private Boolean paymentSuccess;
 
-    @Column(length = 20)
+    @Column(name = "PAYMENT_REF_ID", length = 20)
     private String paymentRefId;
 
     private String data;

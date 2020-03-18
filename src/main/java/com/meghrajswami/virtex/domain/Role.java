@@ -9,9 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
@@ -26,12 +23,9 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Role extends IdentifiableEntity {
 
-    @Column(length = 50)
+    @Column(name = "NAME", length = 50)
     private String name;
 
     public Role(String name) {

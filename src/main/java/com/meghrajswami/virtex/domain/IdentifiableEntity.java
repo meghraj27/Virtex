@@ -9,10 +9,12 @@ import lombok.Setter;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 /**
  * Base identifiable entity.
  */
+@MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,7 +23,7 @@ public abstract class IdentifiableEntity implements Model {
      * The unique id of the entity.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+>
 
 <head>
 
@@ -21,8 +21,9 @@
 <body class="gray-bg">
 <div class="text-center animated fadeInDown">
 
-    <h1 class="logo-name">Virtex</h1>
-
+    <a th:href="@{/}">
+        <h1 class="logo-name">Virtex</h1>
+    </a>
 </div>
 <div class="middle-box text-center loginscreen animated fadeInDown">
     <div>

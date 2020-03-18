@@ -42,18 +42,12 @@
                     <li><a class="page-scroll" href="#testimonials">Testimonials</a></li>
                     <li><a class="page-scroll" href="#pricing">Pricing</a></li>
                     <li><a class="page-scroll" href="#contact">Contact</a></li>
-                    <li><a class="" href="/login">Login</a></li>
-                    <li><a class="" href="/register">Register</a></li>
-                    <li>
-                        <a class="" href="/dashboard" sec:authorize="isAuthenticated()">
+                    <li sec:authorize="!isAuthenticated()"><a class="" href="/login">Login</a></li>
+                    <li sec:authorize="!isAuthenticated()"><a class="" href="/register">Register</a></li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a class="" href="/dashboard">
                             Dashboard
                         </a>
-                        <!--<a sec:authorize="hasRole('ROLE_ADMIN')">-->
-                        <!--This content is only shown to administrators.-->
-                        <!--</a>-->
-                        <!--<a sec:authorize="hasRole('ROLE_USER')">-->
-                        <!--This content is only shown to users.-->
-                        <!--</a>-->
                     </li>
                 </ul>
             </div>
@@ -736,8 +730,7 @@
             var sy = scrollY();
             if (sy >= changeHeaderOn) {
                 $(header).addClass('navbar-scroll')
-            }
-            else {
+            } else {
                 $(header).removeClass('navbar-scroll')
             }
             didScroll = false;

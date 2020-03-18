@@ -1,12 +1,9 @@
-/*
- * Copyright (c) 2019 TopCoder, Inc. All rights reserved.
- */
 package com.meghrajswami.virtex.exception;
 
 /**
  * This is exception is thrown if there is no entity with given id.
  *
- * @author TCSDEVELOPER
+ * @author Meghraj
  * @version 1.0
  */
 public class EmptyResultException extends VirtexException {

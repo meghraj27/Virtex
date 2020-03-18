@@ -1,6 +1,3 @@
-/*
- * Copyright (c) 2019 TopCoder, Inc. All rights reserved.
- */
 package com.meghrajswami.virtex.domain;
 
 import lombok.AccessLevel;
@@ -11,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import java.util.Date;
 
@@ -19,6 +17,7 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 /**
  * The auditable entity.
  */
+@MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

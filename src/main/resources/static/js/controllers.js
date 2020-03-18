@@ -1109,6 +1109,34 @@ function netPositionsCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile) {
 }
 
 /**
+ * settingsCtrl - Controller for settings
+ */
+function settingsCtrl($scope, $http) {
+    $scope.changePasswordObject = {
+        currentPassword: "",
+        newPassword: ""
+    };
+    $scope.changePassword = function (langKey) {
+
+        if ($scope.change_password_form.$valid) {
+            // Submit as normal
+            $scope.loadingPlaceOrder = true;
+
+            $http.post("/change-password", $scope.changePasswordObject).then(function (response) {
+                $scope.loadingPlaceOrder = false;
+                if (response.data) {
+
+                }
+            }, function (error) {
+                $scope.loadingPlaceOrder = false;
+            });
+        } else {
+            $scope.change_password_form.submitted = true;
+        }
+    };
+}
+
+/**
  * translateCtrl - Controller for translate
  */
 function translateCtrl($translate, $scope) {
@@ -1130,5 +1158,6 @@ angular
     .controller('tradeBookCtrl', tradeBookCtrl)
     .controller('tradeOrderBookCtrl', tradeOrderBookCtrl)
     .controller('netPositionsCtrl', netPositionsCtrl)
+    .controller('settingsCtrl', settingsCtrl)
     .controller('translateCtrl', translateCtrl);
 

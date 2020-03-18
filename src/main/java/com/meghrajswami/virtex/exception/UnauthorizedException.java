@@ -1,6 +1,3 @@
-/*
- * Copyright (c) 2019 TopCoder, Inc. All rights reserved.
- */
 package com.meghrajswami.virtex.exception;
 
 /**

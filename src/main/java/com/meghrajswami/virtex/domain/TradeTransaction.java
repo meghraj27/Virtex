@@ -12,9 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -38,16 +35,16 @@ import java.math.BigDecimal;
 @ToString
 public class TradeTransaction extends AuditableEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    @Column(name = "BID_BY_ID")
     private Long bidById;
 
+    @Column(name = "BID_TRADE_ORDER_ID")
     private Long bidTradeOrderId;
 
+    @Column(name = "ASK_BY_ID")
     private Long askById;
 
+    @Column(name = "ASK_TRADE_ORDER_ID")
     private Long askTradeOrderId;
 
     @Enumerated(EnumType.STRING)

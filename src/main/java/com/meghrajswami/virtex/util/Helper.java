@@ -158,7 +158,7 @@ public class Helper {
                 result = MAPPER.writeValueAsString(obj);
             }
         } catch (JsonProcessingException e) {
-            // Helper.logException(LogAspect.LOGGER, "com.wiproevents.utils" +
+            // Helper.logException(LogAspect.LOGGER, "com.meghrajswami.virtex.utils" +
             // ".Helper#toString", e);
             result = "The object can not be serialized by Jackson JSON mapper, error: " + e.toString();
         }

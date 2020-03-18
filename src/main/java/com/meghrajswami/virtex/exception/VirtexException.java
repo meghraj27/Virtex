@@ -1,13 +1,10 @@
-/*
- * Copyright (c) 2019 TopCoder, Inc. All rights reserved.
- */
 package com.meghrajswami.virtex.exception;
 
 
 /**
  * The base exception for the application. Thrown if there is an error during CRUD operations.
  *
- * @author TCSDEVELOPER
+ * @author Meghraj
  * @version 1.0
  */
 public class VirtexException extends Exception {

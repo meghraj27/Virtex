@@ -19,13 +19,11 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -51,13 +49,6 @@ import java.util.Map;
 @ToString
 public class User extends AuditableEntity implements Serializable {
 
-    /**
-     * The unique id of the entity.
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     @JsonView(View.PublicSummary.class)
     private String photoUrlSmall;
 
@@ -68,7 +59,7 @@ public class User extends AuditableEntity implements Serializable {
     private String photoUrlLarge;
 
     @JsonView(View.PublicSummary.class)
-    @Column(length = 100)
+    @Column(name = "NAME", length = 100)
     private String name;
 
     @JsonView(View.RoleOwner.class)

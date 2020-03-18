@@ -45,3 +45,11 @@ configuration* file with respect to classpath.
 
 Example file `instruments-example.conf` present in resources directory is being
 used by default.  
+
+## Technologies Used
+
+*   OpenJDK 8
+*   MySql 5.7
+*   Spring Boot 2.2.5.RELEASE
+*   Lombok 1.18
+*   [Parity](https://github.com/paritytrading/parity) (Parity Matching Engine) 0.7.0
