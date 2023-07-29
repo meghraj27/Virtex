@@ -1,5 +1,12 @@
+spring:
+  application:
+    name: virtex
+  profiles:
+    group:
+      "local-h2": "local"
 application:
   version: 0.1
+---
 spring:
   datasource:
     url: jdbc:mysql://${db.host}:${db.port}/${db.name}?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
@@ -26,7 +33,9 @@ virtex:
     instruments-example.conf
 ---
 spring:
-  profiles: local
+  config:
+    activate:
+      on-profile: local
   jpa:
     hibernate:
       ddl-auto: update
@@ -62,7 +71,23 @@ logging:
 
 ---
 spring:
-  profiles: eb
+  config:
+    activate:
+      on-profile: local-h2
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+#    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console.enabled: true
+---
+spring:
+  config:
+    activate:
+      on-profile: eb
   jpa:
     hibernate:
       ddl-auto: update
@@ -70,28 +95,30 @@ spring:
     url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: ${rds.username}
     password: ${rds.password}
-  resources:
-    cache-period: 5184000
-    chain:
-      cache: true
-      strategy:
-        fixed:
-          enabled: true
-#          paths: /**/*.js,/**/*.map
-          version: ${application.version}
-        content:
-          enabled: true
-      html-application-cache: true
+  web:
+    resources:
+      chain:
+        strategy:
+          fixed:
+            enabled: true
+            version: ${application.version}
+          content:
+            enabled: true
+        cache: true
+      cache:
+        period: 5184000
 #security:
 #  require-ssl: true
 server:
-  use-forward-headers: true
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/xml,image/png
+  forward-headers-strategy: native
 ---
 spring:
-  profiles: heroku
+  config:
+    activate:
+      on-profile: heroku
   jpa:
     hibernate:
       ddl-auto: update
@@ -99,22 +126,22 @@ spring:
     url: jdbc:${jawsdb.url}?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username:
     password:
-  resources:
-    cache-period: 5184000
-    chain:
-      cache: true
-      strategy:
-        fixed:
-          enabled: true
-#          paths: /**/*.js,/**/*.map
-          version: ${application.version}
-        content:
-          enabled: true
-      html-application-cache: true
+  web:
+    resources:
+      chain:
+        cache: true
+        strategy:
+          fixed:
+            enabled: true
+            version: ${application.version}
+          content:
+            enabled: true
+      cache:
+        period: 5184000
 #security:
 #  require-ssl: true
 server:
-  use-forward-headers: true
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/xml,image/png
+  forward-headers-strategy: native
