@@ -750,6 +750,7 @@ function dashboardCtrl($rootScope, $http, $sce, $uibModal) {
         refreshDepth();
     };
     refreshDepth();
+
     function refreshDepth() {
         $http.get('stats/depth').then(function (response) {
             if (response.data) {
@@ -931,6 +932,7 @@ function tradeBookCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile) {
     ];
 
     $scope.dtInstanceCallback = dtInstanceCallback;
+
     function dtInstanceCallback(dtInstance) {
         // console.log(dtInstance);
         dtInstance.DataTable.on('click.dt', 'td.details-control', function (e) {
@@ -945,8 +947,7 @@ function tradeBookCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile) {
                 row.child.hide();
                 tr.removeClass('shown');
                 // icon.removeClass('fa-caret-down').addClass('fa-caret-right');
-            }
-            else {
+            } else {
                 // Open this row
                 row.child($compile('<div trade-book-row-detail class="clearfix"></div>')(scope)).show();
                 // row.child(format(row.data())).show();
@@ -1023,6 +1024,7 @@ function tradeOrderBookCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile)
     ];
 
     $scope.dtInstanceCallback = dtInstanceCallback;
+
     function dtInstanceCallback(dtInstance) {
         // console.log(dtInstance);
         dtInstance.DataTable.on('click.dt', 'td.details-control', function (e) {
@@ -1037,8 +1039,7 @@ function tradeOrderBookCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile)
                 row.child.hide();
                 tr.removeClass('shown');
                 // icon.removeClass('fa-caret-down').addClass('fa-caret-right');
-            }
-            else {
+            } else {
                 // Open this row
                 row.child($compile('<div trade-order-book-row-detail class="clearfix"></div>')(scope)).show();
                 // row.child(format(row.data())).show();
@@ -1050,8 +1051,89 @@ function tradeOrderBookCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile)
 
 }
 
-function netPositionsCtrl() {
+function netPositionsCtrl($scope, DTOptionsBuilder, DTColumnBuilder, $compile) {
+    $scope.dtOptions = DTOptionsBuilder.newOptions()
+        .withDOM('<"html5buttons"B>lTfgitp')
+        .withButtons([
+            {extend: 'copy'},
+            {extend: 'csv'},
+            {extend: 'excel', title: 'NetPositions'},
+            {extend: 'pdf', title: 'NetPositions'},
 
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ])
+        .withOption('ajax', {
+            // Either you specify the AjaxDataProp here
+            dataSrc: 'content',
+            url: '/net_positions',
+            type: 'GET',
+            data: function (data) {
+                data.size = data.length;
+                data.page = Math.floor(data.start / data.length);
+                if (data.order.length != 0) {
+                    var dir = (data.order[0].dir == 'dsc') ? 'desc' : data.order[0].dir;
+                    data.sort = data.columns[data.order[0].column].data + ',' + dir;
+                }
+                return data;
+            },
+            dataFilter: function (data) {
+                var json = jQuery.parseJSON(data);
+                json.recordsTotal = json.totalElements;
+                json.recordsFiltered = json.totalElements;
+
+                return JSON.stringify(json); // return JSON string
+            }
+        })
+        // .withOption('pagingType', 'scrolling')
+        .withOption('processing', true)
+        .withOption('serverSide', true)
+        .withOption('order', [[1, 'dsc']]);
+    $scope.dtColumns = [
+        DTColumnBuilder.newColumn('symbol').withTitle('Symbol'),
+        DTColumnBuilder.newColumn('avgBuyPrice').withTitle('Avg. Buy Price'),
+        DTColumnBuilder.newColumn('netBuyQty').withTitle('Net Buy Qty.'),
+        DTColumnBuilder.newColumn('avgSellPrice').withTitle('Avg. Sell Price'),
+        DTColumnBuilder.newColumn('netSellQty').withTitle('Net Sell Qty.'),
+    ];
+
+}
+
+/**
+ * settingsCtrl - Controller for settings
+ */
+function settingsCtrl($scope, $http) {
+    $scope.changePasswordObject = {
+        currentPassword: "",
+        newPassword: ""
+    };
+    $scope.changePassword = function (langKey) {
+
+        if ($scope.change_password_form.$valid) {
+            // Submit as normal
+            $scope.loadingPlaceOrder = true;
+
+            $http.post("/change-password", $scope.changePasswordObject).then(function (response) {
+                $scope.loadingPlaceOrder = false;
+                if (response.data) {
+
+                }
+            }, function (error) {
+                $scope.loadingPlaceOrder = false;
+            });
+        } else {
+            $scope.change_password_form.submitted = true;
+        }
+    };
 }
 
 /**
@@ -1075,5 +1157,7 @@ angular
     .controller('dashboardCtrl', dashboardCtrl)
     .controller('tradeBookCtrl', tradeBookCtrl)
     .controller('tradeOrderBookCtrl', tradeOrderBookCtrl)
+    .controller('netPositionsCtrl', netPositionsCtrl)
+    .controller('settingsCtrl', settingsCtrl)
     .controller('translateCtrl', translateCtrl);
 

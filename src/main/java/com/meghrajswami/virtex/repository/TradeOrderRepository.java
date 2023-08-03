@@ -36,19 +36,19 @@ public interface TradeOrderRepository extends PagingAndSortingRepository<TradeOr
     @Query("select t from TradeOrder t " +
             "where t.price >= :#{#order.price} " +
             "and t.side = :#{T(com.meghrajswami.virtex.domain.TradeOrder$Side).BUY} " +
-            "and t.status in ('PLACED', 'PARTIALLY_FULFILLED') " +
+            "and t.status in (:#{T(com.meghrajswami.virtex.domain.TradeOrder$TradeOrderStatus).PLACED}, :#{T(com.meghrajswami.virtex.domain.TradeOrder$TradeOrderStatus).PARTIALLY_FULFILLED}) " +
             "order by t.price desc")
     Collection<TradeOrder> findQualifiedBids(@Param("order") TradeOrder order);
 
     @Query("select t from TradeOrder t " +
             "where t.price <= :#{#order.price} " +
             "and t.side = :#{T(com.meghrajswami.virtex.domain.TradeOrder$Side).SELL} " +
-            "and t.status in ('PLACED', 'PARTIALLY_FULFILLED') " +
+            "and t.status in (:#{T(com.meghrajswami.virtex.domain.TradeOrder$TradeOrderStatus).PLACED}, :#{T(com.meghrajswami.virtex.domain.TradeOrder$TradeOrderStatus).PARTIALLY_FULFILLED}) " +
             "order by t.price asc")
     Collection<TradeOrder> findQualifiedAsks(@Param("order") TradeOrder order);
 
     @Query("select t from TradeOrder t " +
-            "where t.status in ('PLACED', 'PARTIALLY_FULFILLED') " +
+            "where t.status in (:#{T(com.meghrajswami.virtex.domain.TradeOrder$TradeOrderStatus).PLACED}, :#{T(com.meghrajswami.virtex.domain.TradeOrder$TradeOrderStatus).PARTIALLY_FULFILLED}) " +
             "order by t.created asc")
     List<TradeOrder> findPendingOrders();
 }

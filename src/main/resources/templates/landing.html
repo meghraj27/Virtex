@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>INSPINIA - Landing Page</title>
+    <title>Virtex - Landing Page</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -32,7 +32,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">WEBAPPLAYERS</a>
+                <a class="navbar-brand" href="/">Virtex</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -42,16 +42,12 @@
                     <li><a class="page-scroll" href="#testimonials">Testimonials</a></li>
                     <li><a class="page-scroll" href="#pricing">Pricing</a></li>
                     <li><a class="page-scroll" href="#contact">Contact</a></li>
-                    <li>
-                        <a class="" href="/dashboard" sec:authorize="isAuthenticated()">
+                    <li sec:authorize="!isAuthenticated()"><a class="" href="/login">Login</a></li>
+                    <li sec:authorize="!isAuthenticated()"><a class="" href="/register">Register</a></li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a class="" href="/dashboard">
                             Dashboard
                         </a>
-                        <!--<a sec:authorize="hasRole('ROLE_ADMIN')">-->
-                        <!--This content is only shown to administrators.-->
-                        <!--</a>-->
-                        <!--<a sec:authorize="hasRole('ROLE_USER')">-->
-                        <!--This content is only shown to users.-->
-                        <!--</a>-->
                     </li>
                 </ul>
             </div>
@@ -74,7 +70,7 @@
                     <p>Lorem Ipsum is simply dummy text of the printing.</p>
                     <p>
                         <a class="btn btn-lg btn-primary" href="#" role="button">READ MORE</a>
-                        <a class="caption-link" href="#" role="button">Inspinia Theme</a>
+                        <a class="caption-link" href="#" role="button">Virtex Theme</a>
                     </p>
                 </div>
                 <div class="carousel-image wow zoomIn">
@@ -187,9 +183,9 @@
     </div>
     <div class="row features-block">
         <div class="col-lg-6 features-text wow fadeInLeft">
-            <small>INSPINIA</small>
+            <small>Virtex</small>
             <h2>Perfectly designed </h2>
-            <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully
+            <p>Virtex Admin Theme is a premium admin dashboard template with flat design concept. It is fully
                 responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It
                 has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
             <a href="" class="btn btn-primary">Learn more</a>
@@ -279,9 +275,9 @@
         </div>
         <div class="row features-block">
             <div class="col-lg-3 features-text wow fadeInLeft">
-                <small>INSPINIA</small>
+                <small>Virtex</small>
                 <h2>Perfectly designed </h2>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully
+                <p>Virtex Admin Theme is a premium admin dashboard template with flat design concept. It is fully
                     responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query.
                     It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
                 <a href="" class="btn btn-primary">Learn more</a>
@@ -290,9 +286,9 @@
                 <img src="img/landing/iphone.jpg" class="img-responsive" alt="dashboard">
             </div>
             <div class="col-lg-3 features-text text-right wow fadeInRight">
-                <small>INSPINIA</small>
+                <small>Virtex</small>
                 <h2>Perfectly designed </h2>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully
+                <p>Virtex Admin Theme is a premium admin dashboard template with flat design concept. It is fully
                     responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query.
                     It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
                 <a href="" class="btn btn-primary">Learn more</a>
@@ -471,36 +467,36 @@
         </div>
         <div class="row">
             <div class="col-lg-5 col-lg-offset-1 features-text">
-                <small>INSPINIA</small>
+                <small>Virtex</small>
                 <h2>Perfectly designed </h2>
                 <i class="fa fa-bar-chart big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully
+                <p>Virtex Admin Theme is a premium admin dashboard template with flat design concept. It is fully
                     responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query.
                     It has a huge collection of reusable UI components and integrated with.</p>
             </div>
             <div class="col-lg-5 features-text">
-                <small>INSPINIA</small>
+                <small>Virtex</small>
                 <h2>Perfectly designed </h2>
                 <i class="fa fa-bolt big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully
+                <p>Virtex Admin Theme is a premium admin dashboard template with flat design concept. It is fully
                     responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query.
                     It has a huge collection of reusable UI components and integrated with.</p>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-5 col-lg-offset-1 features-text">
-                <small>INSPINIA</small>
+                <small>Virtex</small>
                 <h2>Perfectly designed </h2>
                 <i class="fa fa-clock-o big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully
+                <p>Virtex Admin Theme is a premium admin dashboard template with flat design concept. It is fully
                     responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query.
                     It has a huge collection of reusable UI components and integrated with.</p>
             </div>
             <div class="col-lg-5 features-text">
-                <small>INSPINIA</small>
+                <small>Virtex</small>
                 <h2>Perfectly designed </h2>
                 <i class="fa fa-users big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully
+                <p>Virtex Admin Theme is a premium admin dashboard template with flat design concept. It is fully
                     responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query.
                     It has a huge collection of reusable UI components and integrated with.</p>
             </div>
@@ -644,7 +640,7 @@
         <div class="row m-b-lg">
             <div class="col-lg-3 col-lg-offset-3">
                 <address>
-                    <strong><span class="navy">Company name, Inc.</span></strong><br/>
+                    <strong><span class="navy">Virtex, Inc.</span></strong><br/>
                     795 Folsom Ave, Suite 600<br/>
                     San Francisco, CA 94107<br/>
                     <abbr title="Phone">P:</abbr> (123) 456-7890
@@ -676,7 +672,7 @@
         </div>
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-                <p><strong>&copy; 2015 Company Name</strong><br/> consectetur adipisicing elit. Aut eaque, laboriosam
+                <p><strong>&copy; 2015 Virtex</strong><br/> consectetur adipisicing elit. Aut eaque, laboriosam
                     veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
             </div>
         </div>
@@ -734,8 +730,7 @@
             var sy = scrollY();
             if (sy >= changeHeaderOn) {
                 $(header).addClass('navbar-scroll')
-            }
-            else {
+            } else {
                 $(header).removeClass('navbar-scroll')
             }
             didScroll = false;

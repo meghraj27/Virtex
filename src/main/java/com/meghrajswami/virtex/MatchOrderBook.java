@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Created by megh on 12/4/2017.
+ * Created by Meghraj on 12/4/2017.
  */
 public class MatchOrderBook implements OrderBookListener {
 
@@ -76,8 +76,8 @@ public class MatchOrderBook implements OrderBookListener {
         BigDecimal executedQuantityDecimal = new BigDecimal(executedQuantity).divide(new BigDecimal(Longs.POWERS_OF_TEN[8]));
         BigDecimal value = priceDecimal.multiply(executedQuantityDecimal);
 
-        TradeOrder restingOrder = tradeOrderRepository.findOne(restingOrderId);
-        TradeOrder incomingOrder = tradeOrderRepository.findOne(incomingOrderId);
+        TradeOrder restingOrder = tradeOrderRepository.findById(restingOrderId).get();
+        TradeOrder incomingOrder = tradeOrderRepository.findById(incomingOrderId).get();
 
         Symbol symbol = incomingOrder.getSymbol();
 
@@ -117,8 +117,8 @@ public class MatchOrderBook implements OrderBookListener {
         }
 
         //update balances
-        User restingOrderUser = userRepository.findOne(restingOrder.getPlacedBy());
-        User incomingOrderUser = userRepository.findOne(incomingOrder.getPlacedBy());
+        User restingOrderUser = userRepository.findById(restingOrder.getPlacedBy()).get();
+        User incomingOrderUser = userRepository.findById(incomingOrder.getPlacedBy()).get();
 
         //balance and holdings adjustments
         //incoming BUY means market side is SELL

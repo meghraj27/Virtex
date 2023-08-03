@@ -137,11 +137,47 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
         })
         .state('trades.net_positions', {
             url: "/net-positions",
-            templateUrl: "views/trade_net_positions.html"
+            templateUrl: "views/trade_net_positions.html",
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/datatables.min.js', 'css/plugins/dataTables/datatables.min.css']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables.buttons',
+                            files: ['js/plugins/dataTables/angular-datatables.buttons.min.js']
+                        }
+                    ]);
+                }
+            }
         })
         .state('settings', {
             url: "/settings",
-            templateUrl: "views/settings.html"
+            templateUrl: "views/settings.html",
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            name: 'angular-ladda',
+                            files: [
+                                'js/plugins/ladda/spin.min.js',
+                                'js/plugins/ladda/ladda.min.js',
+                                'css/plugins/ladda/ladda-themeless.min.css',
+                                'js/plugins/ladda/angular-ladda.min.js'
+                            ]
+                        }
+                    ]);
+                }
+            }
         })
         // .state('dashboards', {
         //     abstract: true,
@@ -1610,6 +1646,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
         });
 
 }
+
 angular
     .module('inspinia')
     .config(config)

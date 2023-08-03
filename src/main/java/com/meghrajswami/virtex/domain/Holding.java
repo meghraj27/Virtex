@@ -1,5 +1,9 @@
 package com.meghrajswami.virtex.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
@@ -24,63 +28,29 @@ import java.util.Date;
 //         }
 // )
 @Embeddable
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Holding {
 
-    // @Id
-    @Column(name = "SYMBOL")
     @Enumerated(EnumType.STRING)
     private Symbol symbol;
 
-    @Column(name = "QUANTITY", precision = 19, scale = 8)
+    @Column(precision = 19, scale = 8)
     private BigDecimal quantity;
 
-    @Column(name = "AVAILABLE_QUANTITY", precision = 19, scale = 8)
+    @Column(precision = 19, scale = 8)
     private BigDecimal availableQuantity;
 
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "UPDATED", nullable = false)
+    @Column(nullable = false)
     private Date updated = new Date();
-
-    protected Holding() {
-    }
 
     public Holding(Symbol symbol, BigDecimal quantity) {
         this.symbol = symbol;
         this.quantity = quantity;
         this.availableQuantity = quantity;
-    }
-
-    public Symbol getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(Symbol symbol) {
-        this.symbol = symbol;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getAvailableQuantity() {
-        return availableQuantity;
-    }
-
-    public void setAvailableQuantity(BigDecimal availableQuantity) {
-        this.availableQuantity = availableQuantity;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
     }
 
     public void block(BigDecimal quantity) {
